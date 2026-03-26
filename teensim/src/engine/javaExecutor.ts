@@ -34,7 +34,8 @@ export async function executeWithJava(
 
   // Instrument code (state reporters injected by the existing mainParser AST)
   const { statements } = parseMain(mainCode, symbolTable);
-  const instrTeenager = instrumentTeenager(teenagerCode);
+  const definedFieldNames = (store.classSchema?.fields ?? []).map((f) => f.name);
+  const instrTeenager = instrumentTeenager(teenagerCode, definedFieldNames);
   const instrMain = instrumentMain(mainCode, statements);
 
   // Choose backend

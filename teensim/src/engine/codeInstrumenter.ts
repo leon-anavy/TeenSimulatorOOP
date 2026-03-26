@@ -1,21 +1,25 @@
 import type { MainStatement } from '../parser/types';
 
-// Injected into Teenager.java so we can read field values after each operation.
-// Uses string concatenation (not JSON library) to stay compatible with basic Java.
-const STATE_REPORTER_METHOD = `
-    public String getTeenSimState() {
-        return "{\\"energy\\":" + energy
-            + ",\\"happiness\\":" + happiness
-            + ",\\"gpa\\":" + gpa
-            + ",\\"phoneBattery\\":" + phoneBattery
-            + ",\\"isHungry\\":" + isHungry + "}";
-    }`;
+// Generates getTeenSimState() using only fields the student actually declared.
+function buildStateReporter(fieldNames: string[]): string {
+  if (fieldNames.length === 0) {
+    return `\n    public String getTeenSimState() { return "{}"; }`;
+  }
+  const pairs = fieldNames.map(
+    (f, i) => (i === 0 ? `"{\\"${f}\\":" + ${f}` : `+ ",\\"${f}\\":" + ${f}`)
+  );
+  return (
+    `\n    public String getTeenSimState() {\n` +
+    `        return ${pairs.join('\n            ')} + "}";\n` +
+    `    }`
+  );
+}
 
-export function instrumentTeenager(code: string): string {
-  // Inject before the last closing brace of the class
+export function instrumentTeenager(code: string, fieldNames: string[]): string {
+  const method = buildStateReporter(fieldNames);
   const lastBrace = code.lastIndexOf('}');
-  if (lastBrace === -1) return code + '\n' + STATE_REPORTER_METHOD + '\n}';
-  return code.slice(0, lastBrace) + STATE_REPORTER_METHOD + '\n' + code.slice(lastBrace);
+  if (lastBrace === -1) return code + '\n' + method + '\n}';
+  return code.slice(0, lastBrace) + method + '\n' + code.slice(lastBrace);
 }
 
 /**
