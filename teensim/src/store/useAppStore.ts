@@ -3,7 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 import type { ClassSchema, SymbolTable, ParseError } from '../parser/types';
 import type { TeenagerState, MethodName } from '../constants/methodEffects';
 import { DEFAULT_STATE } from '../constants/methodEffects';
-import { DEFAULT_TEENAGER_CODE, DEFAULT_MAIN_CODE } from '../constants/defaultCode';
+import { DEFAULT_TEENAGER_CODE, DEFAULT_MAIN_CODE, FULL_TEENAGER_CODE } from '../constants/defaultCode';
 import type { Stage } from '../constants/stageConfig';
 import { runBodyStatement } from '../engine/bodyRunner';
 
@@ -77,6 +77,7 @@ interface AppActions {
   stopMainTabBlinking: () => void;
   setExecutionMode: (mode: 'java' | 'local') => void;
   setIsExecuting: (v: boolean) => void;
+  jumpToMain: () => void;
 
   appendConsole: (kind: ConsoleEntryKind, message: string, suggestion?: string) => void;
   clearConsole: () => void;
@@ -164,6 +165,18 @@ export const useAppStore = create<AppState & AppActions>()(
 
     setExecutionMode: (mode) => set((s) => { s.executionMode = mode; }),
     setIsExecuting: (v) => set((s) => { s.isExecuting = v; }),
+
+    jumpToMain: () => set((s) => {
+      s.teenagerCode = FULL_TEENAGER_CODE;
+      s.currentStage = 5;
+      s.viewingStage = 5;
+      s.mainTabUnlocked = true;
+      s.mainTabBlinking = false;
+      s.consoleVisible = true;
+      s.activeFile = 'Main.java';
+      s.instances = {};
+      s.consoleEntries = [];
+    }),
 
     appendConsole: (kind, message, suggestion) =>
       set((s) => {

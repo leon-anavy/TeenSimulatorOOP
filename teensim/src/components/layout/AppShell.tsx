@@ -29,6 +29,7 @@ export function AppShell() {
   const setViewingStage = useAppStore((s) => s.setViewingStage);
   const setActiveFile = useAppStore((s) => s.setActiveFile);
   const activeFile = useAppStore((s) => s.activeFile);
+  const jumpToMain = useAppStore((s) => s.jumpToMain);
 
   function handleDotClick(s: Stage) {
     if (s > currentStage) return;
@@ -41,6 +42,11 @@ export function AppShell() {
     <div className="app-shell-wrapper">
       <header className="app-header">
         <span className="app-title">TeenSim: Master OOP</span>
+        {currentStage < 5 && (
+          <button className="quick-start-btn" onClick={jumpToMain} title="דלג לשלב Main.java עם קוד מלא">
+            ⚡ Quick Start
+          </button>
+        )}
         <div className="app-stage-dots">
           {([1, 2, 3, 4, 5, 6, 7] as Stage[]).map((s) => (
             <button
