@@ -1,0 +1,100 @@
+.attribute-picker {
+  background: #1e1e2e;
+  border: 1px solid #313244;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 0 8px 8px;
+}
+
+.picker-header {
+  width: 100%;
+  background: #181825;
+  border: none;
+  color: #cdd6f4;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.picker-header:hover {
+  background: #313244;
+}
+
+.picker-toggle {
+  font-size: 10px;
+  color: #6c7086;
+}
+
+.picker-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  direction: rtl;
+}
+
+.picker-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.picker-section-label {
+  font-size: 10px;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  padding: 0 2px;
+}
+
+.picker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.picker-item:hover {
+  background: #313244;
+}
+
+.picker-item.checked {
+  background: rgba(166, 227, 161, 0.08);
+  border-color: rgba(166, 227, 161, 0.25);
+}
+
+.picker-item input[type="checkbox"] {
+  accent-color: #a6e3a1;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.picker-label {
+  flex: 1;
+  font-size: 12px;
+  color: #cdd6f4;
+}
+
+.picker-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #cba6f7;
+  background: rgba(203, 166, 247, 0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+}

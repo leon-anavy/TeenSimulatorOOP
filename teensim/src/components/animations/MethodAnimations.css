@@ -1,0 +1,106 @@
+.anim-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Study */
+.study-anim {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.anim-desk {
+  display: flex;
+  gap: 8px;
+  font-size: 24px;
+}
+
+.anim-book {
+  animation: bounce 0.6s infinite alternate;
+}
+
+.anim-light {
+  font-size: 28px;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}
+
+/* Sleep */
+.sleep-anim {
+  position: absolute;
+}
+
+.sleep-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+}
+
+.zzz {
+  position: absolute;
+  bottom: 30%;
+  font-size: 22px;
+  font-weight: 700;
+  color: #89b4fa;
+  text-shadow: 0 0 8px #89b4fa;
+}
+
+/* Eat */
+.eat-anim {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.anim-food {
+  font-size: 36px;
+}
+
+.energy-pulse {
+  font-size: 14px;
+  color: #a6e3a1;
+  font-weight: 700;
+}
+
+/* Play */
+.play-anim {
+  flex-direction: column;
+}
+
+.controller {
+  font-size: 36px;
+  z-index: 2;
+}
+
+.screen-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(137, 220, 235, 0.25) 0%, transparent 70%);
+  border-radius: 12px;
+}
+
+/* Talk */
+.talk-anim {
+  position: absolute;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.phone-icon {
+  font-size: 32px;
+  margin-right: 8px;
+}
+
+.chat-bubble {
+  position: absolute;
+  top: 10%;
+  font-size: 20px;
+}

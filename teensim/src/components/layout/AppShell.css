@@ -1,0 +1,48 @@
+.app-shell-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #1e1e2e;
+  color: #cdd6f4;
+}
+
+.left-pane,
+.right-pane {
+  height: 100%;
+}
+
+.left-pane {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  min-width: 400px;
+  border-right: 1px solid #313244;
+  background: #181825;
+}
+
+.editor-area {
+  flex: 1;
+  overflow: hidden;
+}
+
+.right-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.visualizer-area {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}

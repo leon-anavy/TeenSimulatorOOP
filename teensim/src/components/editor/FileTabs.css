@@ -1,0 +1,55 @@
+.file-tabs {
+  display: flex;
+  background: #1e1e2e;
+  border-bottom: 1px solid #313244;
+  flex-shrink: 0;
+}
+
+.tab {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  color: #cdd6f4;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.tab:hover:not(.locked) {
+  background: #313244;
+}
+
+.tab.active {
+  color: #89b4fa;
+  border-bottom-color: #89b4fa;
+  background: #181825;
+}
+
+.tab.locked {
+  color: #585b70;
+  cursor: not-allowed;
+}
+
+.lock-icon {
+  font-size: 11px;
+}
+
+.unlock-badge {
+  font-size: 12px;
+}
+
+@keyframes blink-tab {
+  0%, 100% { background: transparent; }
+  50% { background: #45475a; }
+}
+
+.tab.blinking {
+  animation: blink-tab 0.8s ease-in-out infinite;
+  color: #a6e3a1;
+}

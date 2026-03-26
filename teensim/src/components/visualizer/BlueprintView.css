@@ -1,0 +1,173 @@
+.blueprint-view {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0d1117;
+}
+
+.blueprint-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(137, 180, 250, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(137, 180, 250, 0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.blueprint-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.blueprint-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.blueprint-class-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: #89b4fa;
+  font-weight: 700;
+}
+
+.blueprint-subtitle {
+  font-size: 11px;
+  color: #585b70;
+}
+
+.blueprint-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.blueprint-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 0 20px rgba(137, 180, 250, 0.3));
+}
+
+.blueprint-annotations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.blueprint-annotations.left {
+  align-items: flex-end;
+}
+
+.blueprint-annotations.right {
+  align-items: flex-start;
+}
+
+.annotation {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(49, 50, 68, 0.8);
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.access-badge {
+  color: #cba6f7;
+  font-size: 10px;
+}
+
+.field-name {
+  color: #89dceb;
+}
+
+.field-type {
+  color: #f9e2af;
+}
+
+.blueprint-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid #313244;
+  padding-top: 10px;
+}
+
+.methods-label {
+  color: #585b70;
+  font-size: 11px;
+}
+
+.method-pill {
+  display: flex;
+  gap: 4px;
+  background: rgba(49, 50, 68, 0.6);
+  border: 1px solid #6c7086;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.method-access {
+  color: #a6e3a1;
+}
+
+.method-sig {
+  color: #89b4fa;
+}
+
+.blueprint-errors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blueprint-error {
+  background: rgba(243, 139, 168, 0.1);
+  border: 1px solid #f38ba8;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #f38ba8;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.error-suggestion {
+  color: #f9e2af;
+  font-size: 11px;
+}
+
+.blueprint-empty {
+  text-align: center;
+  color: #585b70;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.blueprint-empty code {
+  background: #313244;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #89b4fa;
+  font-family: 'JetBrains Mono', monospace;
+}

@@ -1,0 +1,97 @@
+.object-inspector {
+  background: #181825;
+  border-top: 1px solid #313244;
+  padding: 8px;
+  flex-shrink: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #6c7086;
+  margin-bottom: 6px;
+  padding: 0 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inspector-count {
+  background: #313244;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+.inspector-instances {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.inspector-instance {
+  background: #1e1e2e;
+  border: 1px solid #45475a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  min-width: 160px;
+}
+
+.instance-header {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #313244;
+  padding-bottom: 4px;
+}
+
+.instance-type {
+  color: #cba6f7;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.instance-id {
+  color: #89b4fa;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.instance-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.field-row {
+  display: flex;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  align-items: baseline;
+}
+
+.field-key {
+  color: #89dceb;
+}
+
+.field-colon {
+  color: #6c7086;
+}
+
+.field-val.number {
+  color: #fab387;
+}
+
+.field-val.boolean {
+  color: #cba6f7;
+}
+
+.field-val.string {
+  color: '#a6e3a1';
+}

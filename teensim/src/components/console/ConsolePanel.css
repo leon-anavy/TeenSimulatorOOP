@@ -1,0 +1,98 @@
+.console-panel {
+  background: #11111b;
+  border-top: 1px solid #313244;
+  flex-shrink: 0;
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.console-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid #1e1e2e;
+  font-size: 11px;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.console-clear {
+  background: transparent;
+  border: 1px solid #313244;
+  color: #585b70;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.console-clear:hover {
+  color: #cdd6f4;
+  border-color: #6c7086;
+}
+
+.console-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.console-empty {
+  color: #45475a;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-style: italic;
+}
+
+.console-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 12px;
+  border-bottom: 1px solid rgba(49, 50, 68, 0.4);
+}
+
+.entry-prefix {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.console-entry.log {
+  color: #cdd6f4;
+}
+.console-entry.log .entry-prefix { color: #6c7086; }
+
+.console-entry.success {
+  color: #a6e3a1;
+}
+.console-entry.success .entry-prefix { color: #a6e3a1; }
+
+.console-entry.error {
+  color: #f38ba8;
+  background: rgba(243, 139, 168, 0.05);
+}
+.console-entry.error .entry-prefix { color: #f38ba8; }
+
+.console-entry.system {
+  color: #89b4fa;
+}
+.console-entry.system .entry-prefix { color: #89b4fa; }
+
+.entry-message {
+  direction: rtl;
+  text-align: right;
+}
+
+.entry-suggestion {
+  color: #f9e2af;
+  font-size: 11px;
+  direction: rtl;
+  text-align: right;
+  padding-right: 16px;
+}

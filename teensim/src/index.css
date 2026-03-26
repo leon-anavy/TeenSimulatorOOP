@@ -1,0 +1,110 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hebrew text direction support */
+[lang="he"], .rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #181825;
+}
+::-webkit-scrollbar-thumb {
+  background: #45475a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #585b70;
+}
+
+/* Global app title bar */
+.app-header {
+  height: 40px;
+  background: #11111b;
+  border-bottom: 1px solid #313244;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.app-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #89b4fa;
+  letter-spacing: 0.5px;
+}
+
+.app-stage-dots {
+  display: flex;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stage-dot-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #313244;
+  border: 1.5px solid #45475a;
+  color: #585b70;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.stage-dot-btn:hover:not(:disabled):not(.viewing) {
+  background: #45475a;
+  color: #cdd6f4;
+}
+
+.stage-dot-btn.active {
+  background: #89b4fa;
+  border-color: #89b4fa;
+  color: #1e1e2e;
+  box-shadow: 0 0 8px rgba(137, 180, 250, 0.5);
+}
+
+.stage-dot-btn.done {
+  background: #a6e3a1;
+  border-color: #a6e3a1;
+  color: #1e1e2e;
+}
+
+.stage-dot-btn.viewing:not(.active) {
+  outline: 2px solid #f9e2af;
+  outline-offset: 2px;
+}
+
+.stage-dot-btn.locked {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
