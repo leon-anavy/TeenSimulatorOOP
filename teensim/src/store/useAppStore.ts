@@ -51,6 +51,10 @@ interface AppState {
   mainTabBlinking: boolean;
   consoleVisible: boolean;
 
+  // Execution
+  executionMode: 'java' | 'local';
+  isExecuting: boolean;
+
   // Console
   consoleEntries: ConsoleEntry[];
 }
@@ -71,6 +75,8 @@ interface AppActions {
   advanceStage: (to: Stage) => void;
   setViewingStage: (s: Stage) => void;
   stopMainTabBlinking: () => void;
+  setExecutionMode: (mode: 'java' | 'local') => void;
+  setIsExecuting: (v: boolean) => void;
 
   appendConsole: (kind: ConsoleEntryKind, message: string, suggestion?: string) => void;
   clearConsole: () => void;
@@ -96,6 +102,9 @@ export const useAppStore = create<AppState & AppActions>()(
     mainTabUnlocked: false,
     mainTabBlinking: false,
     consoleVisible: false,
+
+    executionMode: 'java',
+    isExecuting: false,
 
     consoleEntries: [],
 
@@ -152,6 +161,9 @@ export const useAppStore = create<AppState & AppActions>()(
     setViewingStage: (stage) => set((s) => { s.viewingStage = stage; }),
 
     stopMainTabBlinking: () => set((s) => { s.mainTabBlinking = false; }),
+
+    setExecutionMode: (mode) => set((s) => { s.executionMode = mode; }),
+    setIsExecuting: (v) => set((s) => { s.isExecuting = v; }),
 
     appendConsole: (kind, message, suggestion) =>
       set((s) => {
