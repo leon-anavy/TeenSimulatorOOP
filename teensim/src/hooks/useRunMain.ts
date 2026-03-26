@@ -38,9 +38,15 @@ export function useRunMain() {
         instancesCreated = result.instancesCreated;
         methodsRan = result.methodsRan;
         encapsulationViolation = result.encapsulationViolation;
-      } catch {
+      } catch (err) {
         // Fall back to local interpreter
-        appendConsole('system', '⚠️ מצב לא מקוון — מריץ בסימולטור המקומי');
+        const isAuth = String(err).includes('401') || String(err).includes('403');
+        appendConsole(
+          'system',
+          isAuth
+            ? '⚠️ שרת ה-Java אינו זמין (נדרשת הרשאה). עובר לסימולטור המקומי.'
+            : '⚠️ מצב לא מקוון — מריץ בסימולטור המקומי'
+        );
         setExecutionMode('local');
         const localResult = runLocal(mainCode, symbolTable, instances, appendConsole);
         instancesCreated = localResult.instancesCreated;

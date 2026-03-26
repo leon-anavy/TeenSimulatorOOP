@@ -18,6 +18,19 @@ export function instrumentTeenager(code: string): string {
   return code.slice(0, lastBrace) + STATE_REPORTER_METHOD + '\n' + code.slice(lastBrace);
 }
 
+/**
+ * Merge Teenager.java + Main.java into a single source file for single-file
+ * executors (e.g. Judge0). Makes Teenager class non-public so Java allows
+ * two classes in one file.
+ */
+export function mergeForSingleFile(teenagerCode: string, mainCode: string): string {
+  const singleFileTeenager = teenagerCode.replace(
+    /\bpublic\s+(class\s+Teenager\b)/,
+    '$1'
+  );
+  return singleFileTeenager + '\n\n' + mainCode;
+}
+
 export function instrumentMain(code: string, statements: MainStatement[]): string {
   const lines = code.split('\n');
 
