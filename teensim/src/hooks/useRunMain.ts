@@ -17,6 +17,9 @@ export function useRunMain() {
   const setActiveFile = useAppStore((s) => s.setActiveFile);
   const setIsExecuting = useAppStore((s) => s.setIsExecuting);
   const setExecutionMode = useAppStore((s) => s.setExecutionMode);
+  const setRunResult = useAppStore((s) => s.setRunResult);
+  const completeModule = useAppStore((s) => s.completeModule);
+  const isModuleComplete = useAppStore((s) => s.isModuleComplete);
 
   async function run() {
     if (!symbolTable || !classSchema) {
@@ -59,6 +62,7 @@ export function useRunMain() {
     }
 
     setIsExecuting(false);
+    setRunResult({ instancesCreated, methodsRan, encapsulationViolation });
 
     // Stage transitions
     if (currentStage === 5 && instancesCreated) {
@@ -68,8 +72,8 @@ export function useRunMain() {
     if (currentStage === 6 && methodsRan) {
       advanceStage(7);
     }
-    if (currentStage === 7 && encapsulationViolation) {
-      // Already at final stage — just let the error be educational
+    if (currentStage === 7 && encapsulationViolation && !isModuleComplete) {
+      completeModule();
     }
   }
 

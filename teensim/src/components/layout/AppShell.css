@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .app-shell {
@@ -45,4 +46,43 @@
   flex: 1;
   overflow: hidden;
   position: relative;
+}
+
+/* App footer */
+.app-footer {
+  height: 26px;
+  flex-shrink: 0;
+  background: #11111b;
+  border-top: 1px solid #1e1e2e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-size: 11px;
+  color: #45475a;
+  gap: 12px;
+}
+
+.app-footer a {
+  color: #585b70;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.app-footer a:hover {
+  color: #89b4fa;
+}
+
+.footer-github {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #585b70;
+  text-decoration: none;
+  font-size: 11px;
+  transition: color 0.15s;
+}
+
+.footer-github:hover {
+  color: #89b4fa;
 }

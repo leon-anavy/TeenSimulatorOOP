@@ -30,10 +30,10 @@ export function useParseTeenager() {
           if (privateCount >= 2) advanceStage(2);
         }
 
-        // Stage 2 → 3: at least 1 public method
+        // Stage 2 → 3: at least 2 public methods (פעולות פנימיות)
         if (currentStage === 2) {
           const publicMethodCount = result.schema.methods.filter((m) => m.accessModifier === 'public').length;
-          if (publicMethodCount >= 1) advanceStage(3);
+          if (publicMethodCount >= 2) advanceStage(3);
         }
 
         // Stage 3 → 4: constructor defined

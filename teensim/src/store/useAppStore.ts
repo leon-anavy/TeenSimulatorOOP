@@ -51,9 +51,22 @@ interface AppState {
   mainTabBlinking: boolean;
   consoleVisible: boolean;
 
+  // Welcome screen
+  welcomeCompleted: boolean;
+
+  // Level complete screen
+  showLevelComplete: boolean;
+  levelCompleteForStage: Stage | null;
+  isModuleComplete: boolean; // True after stage 7 encapsulation is triggered
+
   // Execution
   executionMode: 'java' | 'local';
   isExecuting: boolean;
+
+  // Run results (for task checklist)
+  instancesCreated: boolean;
+  methodsRan: boolean;
+  encapsulationViolation: boolean;
 
   // Console
   consoleEntries: ConsoleEntry[];
@@ -77,7 +90,12 @@ interface AppActions {
   stopMainTabBlinking: () => void;
   setExecutionMode: (mode: 'java' | 'local') => void;
   setIsExecuting: (v: boolean) => void;
+  setRunResult: (r: { instancesCreated: boolean; methodsRan: boolean; encapsulationViolation: boolean }) => void;
   jumpToMain: () => void;
+
+  setWelcomeCompleted: () => void;
+  dismissLevelComplete: (goNext: boolean) => void;
+  completeModule: () => void;
 
   appendConsole: (kind: ConsoleEntryKind, message: string, suggestion?: string) => void;
   clearConsole: () => void;
@@ -104,8 +122,18 @@ export const useAppStore = create<AppState & AppActions>()(
     mainTabBlinking: false,
     consoleVisible: false,
 
+    welcomeCompleted: false,
+
+    showLevelComplete: false,
+    levelCompleteForStage: null,
+    isModuleComplete: false,
+
     executionMode: 'java',
     isExecuting: false,
+
+    instancesCreated: false,
+    methodsRan: false,
+    encapsulationViolation: false,
 
     consoleEntries: [],
 
@@ -145,11 +173,15 @@ export const useAppStore = create<AppState & AppActions>()(
 
     resetInstances: () => set((s) => { s.instances = {}; }),
 
+    // advanceStage: trigger level-complete, advance currentStage but keep viewingStage
+    // so the student sees the completed stage until they click "Next Level".
     advanceStage: (to) =>
       set((s) => {
         if (to <= s.currentStage) return;
+        s.levelCompleteForStage = s.currentStage;
+        s.showLevelComplete = true;
         s.currentStage = to;
-        s.viewingStage = to;
+        // viewingStage intentionally NOT changed here — LevelComplete handles it
         if (to === 5) {
           s.mainTabUnlocked = true;
           s.mainTabBlinking = true;
@@ -165,6 +197,11 @@ export const useAppStore = create<AppState & AppActions>()(
 
     setExecutionMode: (mode) => set((s) => { s.executionMode = mode; }),
     setIsExecuting: (v) => set((s) => { s.isExecuting = v; }),
+    setRunResult: (r) => set((s) => {
+      s.instancesCreated = r.instancesCreated;
+      s.methodsRan = r.methodsRan;
+      s.encapsulationViolation = r.encapsulationViolation;
+    }),
 
     jumpToMain: () => set((s) => {
       s.teenagerCode = FULL_TEENAGER_CODE;
@@ -176,7 +213,29 @@ export const useAppStore = create<AppState & AppActions>()(
       s.activeFile = 'Main.java';
       s.instances = {};
       s.consoleEntries = [];
+      s.welcomeCompleted = true;
+      s.showLevelComplete = false;
     }),
+
+    setWelcomeCompleted: () => set((s) => { s.welcomeCompleted = true; }),
+
+    // goNext=true → advance viewingStage to currentStage (triggers stage modal for new stage)
+    // goNext=false → stay on levelCompleteForStage (viewingStage unchanged)
+    dismissLevelComplete: (goNext) =>
+      set((s) => {
+        s.showLevelComplete = false;
+        if (goNext) {
+          s.viewingStage = s.currentStage;
+        }
+        // If staying, viewingStage stays at the completed stage for review
+      }),
+
+    completeModule: () =>
+      set((s) => {
+        s.levelCompleteForStage = 7;
+        s.isModuleComplete = true;
+        s.showLevelComplete = true;
+      }),
 
     appendConsole: (kind, message, suggestion) =>
       set((s) => {
