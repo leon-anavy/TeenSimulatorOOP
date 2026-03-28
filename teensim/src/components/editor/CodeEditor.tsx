@@ -77,6 +77,7 @@ export function CodeEditor() {
         </div>
       )}
       <Editor
+        key={activeFile}
         height="100%"
         language="pseudo-java"
         value={value}
