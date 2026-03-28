@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import type { ClassSchema } from '../../parser/types';
 import './AttributePicker.css';
@@ -62,6 +63,25 @@ const METHOD_TEMPLATES: MethodTemplate[] = [
 
 // ─── Constructor helper ───────────────────────────────────────────────────────
 
+// ─── Toast messages ───────────────────────────────────────────────────────────
+
+const FIELD_TOAST_ADD: Record<string, string> = {
+  energy:       '⚡ שדה energy נוסף — private int energy מאחסן אנרגיה שלמה',
+  happiness:    '😊 שדה happiness נוסף — private int happiness מאחסן רמת אושר',
+  gpa:          '📚 שדה gpa נוסף — private double gpa מאחסן ממוצע עשרוני',
+  phoneBattery: '🔋 שדה phoneBattery נוסף — private int phoneBattery מאחסן % סוללה',
+  isHungry:     '🍕 שדה isHungry נוסף — private boolean isHungry — אמת או שקר בלבד',
+};
+
+const METHOD_TOAST_ADD: Record<string, string> = {
+  study:         '📖 study() נוספה — energy יורד ב-15, gpa עולה ב-2.0',
+  sleep:         '😴 sleep() נוספה — energy חוזר ל-100, happiness עולה ב-5',
+  eat:           '🍕 eat() נוספה — isHungry = false, energy עולה ב-20',
+  playGames:     '🎮 playGames() נוספה — happiness עולה ב-25, energy יורד ב-20',
+  talkToFriends: '📱 talkToFriends() נוספה — happiness עולה ב-10, phoneBattery יורד',
+  toString:      '🔤 toString() נוספה — System.out.println(t1) יעבוד אוטומטית!',
+};
+
 const FIELD_DEFAULTS: Record<string, string> = {
   energy: '100',
   happiness: '80',
@@ -114,6 +134,14 @@ export function AttributePicker() {
   const teenagerCode = useAppStore((s) => s.teenagerCode);
   const setTeenagerCode = useAppStore((s) => s.setTeenagerCode);
   const [open, setOpen] = useState(true);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function showToast(msg: string) {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToastMsg(msg);
+    toastTimer.current = setTimeout(() => setToastMsg(null), 3000);
+  }
 
   const definedFieldNames = new Set(classSchema?.fields.map((f) => f.name) ?? []);
   const definedMethodNames = new Set(classSchema?.methods.map((m) => m.name) ?? []);
@@ -122,25 +150,31 @@ export function AttributePicker() {
   function toggleField(tpl: FieldTemplate) {
     if (definedFieldNames.has(tpl.name)) {
       setTeenagerCode(removeFromClass(teenagerCode, tpl.declaration));
+      showToast(`✗ שדה ${tpl.name} הוסר מהשרטוט`);
     } else {
       setTeenagerCode(insertIntoClass(teenagerCode, tpl.declaration + '\n'));
+      showToast(FIELD_TOAST_ADD[tpl.name] ?? `✓ שדה ${tpl.name} נוסף`);
     }
   }
 
   function toggleMethod(tpl: MethodTemplate) {
     if (definedMethodNames.has(tpl.name)) {
       setTeenagerCode(removeFromClass(teenagerCode, tpl.code));
+      showToast(`✗ ${tpl.name}() הוסרה מהשרטוט`);
     } else {
       setTeenagerCode(insertIntoClass(teenagerCode, '\n' + tpl.code + '\n'));
+      showToast(METHOD_TOAST_ADD[tpl.name] ?? `✓ ${tpl.name}() נוספה`);
     }
   }
 
   function toggleConstructor() {
     if (hasConstructor) {
       setTeenagerCode(removeConstructor(teenagerCode));
+      showToast('✗ קונסטרקטור הוסר מהשרטוט');
     } else {
       const snippet = buildConstructorCode(classSchema);
       setTeenagerCode(insertIntoClass(teenagerCode, '\n' + snippet + '\n'));
+      showToast('🔧 קונסטרקטור נוסף — ערכים התחלתיים מוגדרים לכל אובייקט חדש');
     }
   }
 
@@ -149,6 +183,21 @@ export function AttributePicker() {
   const toStringTemplate = METHOD_TEMPLATES.find((m) => m.name === 'toString')!;
 
   return (
+    <>
+    <AnimatePresence>
+      {toastMsg && (
+        <motion.div
+          className="picker-toast"
+          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -4, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          dir="rtl"
+        >
+          {toastMsg}
+        </motion.div>
+      )}
+    </AnimatePresence>
     <div className="attribute-picker">
       <button className="picker-header" onClick={() => setOpen((o) => !o)}>
         <span>🎛️ לוח הגדרות המחלקה</span>
@@ -233,5 +282,6 @@ export function AttributePicker() {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -90,6 +90,25 @@
   color: #cdd6f4;
 }
 
+/* Toast notification — appears near the editor when a checkbox is toggled */
+.picker-toast {
+  position: fixed;
+  bottom: 56px; /* above the footer */
+  left: 16px;
+  max-width: 360px;
+  background: #313244;
+  border: 1px solid #45475a;
+  border-left: 3px solid #a6e3a1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #cdd6f4;
+  line-height: 1.4;
+  z-index: 500;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
 .picker-code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;

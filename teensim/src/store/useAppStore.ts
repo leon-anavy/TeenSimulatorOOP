@@ -55,9 +55,13 @@ interface AppState {
   welcomeCompleted: boolean;
 
   // Level complete screen
+  pendingLevelComplete: boolean;  // 3-second delay before overlay appears
   showLevelComplete: boolean;
   levelCompleteForStage: Stage | null;
   isModuleComplete: boolean; // True after stage 7 encapsulation is triggered
+
+  // Editor lock
+  editorReadOnly: boolean; // True until checklist complete or user unlocks
 
   // Execution
   executionMode: 'java' | 'local';
@@ -94,8 +98,10 @@ interface AppActions {
   jumpToMain: () => void;
 
   setWelcomeCompleted: () => void;
+  triggerLevelComplete: () => void;
   dismissLevelComplete: (goNext: boolean) => void;
   completeModule: () => void;
+  setEditorReadOnly: (v: boolean) => void;
 
   appendConsole: (kind: ConsoleEntryKind, message: string, suggestion?: string) => void;
   clearConsole: () => void;
@@ -124,9 +130,12 @@ export const useAppStore = create<AppState & AppActions>()(
 
     welcomeCompleted: false,
 
+    pendingLevelComplete: false,
     showLevelComplete: false,
     levelCompleteForStage: null,
     isModuleComplete: false,
+
+    editorReadOnly: true,
 
     executionMode: 'java',
     isExecuting: false,
@@ -173,13 +182,14 @@ export const useAppStore = create<AppState & AppActions>()(
 
     resetInstances: () => set((s) => { s.instances = {}; }),
 
-    // advanceStage: trigger level-complete, advance currentStage but keep viewingStage
-    // so the student sees the completed stage until they click "Next Level".
+    // advanceStage: starts 3s pending phase, then LevelComplete overlay appears.
+    // viewingStage stays at completed stage so student sees checklist before overlay.
     advanceStage: (to) =>
       set((s) => {
         if (to <= s.currentStage) return;
         s.levelCompleteForStage = s.currentStage;
-        s.showLevelComplete = true;
+        s.pendingLevelComplete = true;
+        s.showLevelComplete = false;
         s.currentStage = to;
         // viewingStage intentionally NOT changed here — LevelComplete handles it
         if (to === 5) {
@@ -215,27 +225,38 @@ export const useAppStore = create<AppState & AppActions>()(
       s.consoleEntries = [];
       s.welcomeCompleted = true;
       s.showLevelComplete = false;
+      s.editorReadOnly = false; // Main.java is always editable
     }),
 
     setWelcomeCompleted: () => set((s) => { s.welcomeCompleted = true; }),
 
+    triggerLevelComplete: () =>
+      set((s) => {
+        s.pendingLevelComplete = false;
+        s.showLevelComplete = true;
+      }),
+
     // goNext=true → advance viewingStage to currentStage (triggers stage modal for new stage)
-    // goNext=false → stay on levelCompleteForStage (viewingStage unchanged)
+    // goNext=false → stay on levelCompleteForStage (viewingStage unchanged, review mode)
     dismissLevelComplete: (goNext) =>
       set((s) => {
         s.showLevelComplete = false;
         if (goNext) {
           s.viewingStage = s.currentStage;
+          // Re-lock editor for new Teenager.java stages (1-4)
+          if (s.currentStage <= 4) s.editorReadOnly = true;
         }
-        // If staying, viewingStage stays at the completed stage for review
       }),
 
     completeModule: () =>
       set((s) => {
         s.levelCompleteForStage = 7;
         s.isModuleComplete = true;
-        s.showLevelComplete = true;
+        s.pendingLevelComplete = true;
+        s.showLevelComplete = false;
       }),
+
+    setEditorReadOnly: (v) => set((s) => { s.editorReadOnly = v; }),
 
     appendConsole: (kind, message, suggestion) =>
       set((s) => {

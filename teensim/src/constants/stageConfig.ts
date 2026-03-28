@@ -4,6 +4,7 @@ export interface StageConfig {
   stage: Stage;
   titleHebrew: string;
   requiredFile: 'Teenager.java' | 'Main.java' | null;
+  actionPrompt: string; // Explicit instruction shown in the checklist header
   modalTitle: string;
   modalBody: string;
   modalCode?: string;
@@ -15,6 +16,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 1,
     titleHebrew: 'שלב 1: בניית השרטוט',
     requiredFile: 'Teenager.java',
+    actionPrompt: 'הוסף שדות למחלקה על ידי סימון ✓ בלוח הבחירה למטה',
     modalTitle: '🏗️ שלב 1: בניית השרטוט (Blueprint)',
     modalBody:
       'כשמתכנתים בג\'אווה, לא מתחילים ישר ליצור — מתחילים עם תכנון.\n\n' +
@@ -27,6 +29,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 2,
     titleHebrew: 'שלב 2: פעולות פנימיות',
     requiredFile: 'Teenager.java',
+    actionPrompt: 'הוסף פעולות פנימיות על ידי סימון ✓ בלוח הבחירה למטה',
     modalTitle: '🎮 שלב 2: הוספת פעולות פנימיות',
     modalBody:
       'שדות מגדירים מה המתבגר יודע — אבל מה הוא יכול לעשות?\n\n' +
@@ -39,6 +42,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 3,
     titleHebrew: 'שלב 3: קונסטרקטור',
     requiredFile: 'Teenager.java',
+    actionPrompt: 'הוסף קונסטרקטור על ידי סימון ✓ בלוח הבחירה למטה',
     modalTitle: '🔧 שלב 3: הקונסטרקטור',
     modalBody:
       'כשיוצרים אובייקט חדש עם new Teenager(), ג\'אווה צריכה לדעת: מה הערכים ההתחלתיים?\n\n' +
@@ -51,6 +55,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 4,
     titleHebrew: 'שלב 4: toString()',
     requiredFile: 'Teenager.java',
+    actionPrompt: 'הוסף את הפעולה toString() על ידי סימון ✓ בלוח הבחירה למטה',
     modalTitle: '🖨️ שלב 4: toString()',
     modalBody:
       'מה קורה כשכותבים System.out.println(t1)? ג\'אווה לא יודעת "להדפיס מתבגר" — אלא אם כן נלמד אותה.\n\n' +
@@ -63,6 +68,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 5,
     titleHebrew: 'שלב 5: הולדת אובייקט',
     requiredFile: 'Main.java',
+    actionPrompt: 'כתוב ב-Main.java: Teenager t1 = new Teenager(); — ואז לחץ Run',
     modalTitle: '✨ שלב 5: הולדת אובייקט!',
     modalBody:
       'השרטוט מוכן לחלוטין! עכשיו מגיע הרגע המרגש — יצירת אובייקט אמיתי.\n\n' +
@@ -74,6 +80,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 6,
     titleHebrew: 'שלב 6: אינטראקציה',
     requiredFile: 'Main.java',
+    actionPrompt: 'כתוב קריאה לפעולה פנימית, הדפס לפני ואחרי, ואז לחץ Run',
     modalTitle: '🎬 שלב 6: אינטראקציה עם האובייקט',
     modalBody:
       'יש לנו מתבגר חי! הגיע הזמן לתקשר איתו — לקרוא לפעולות הפנימיות ולראות איך המצב משתנה.\n\n' +
@@ -86,6 +93,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
     stage: 7,
     titleHebrew: 'שלב 7: אנקפסולציה',
     requiredFile: 'Main.java',
+    actionPrompt: 'נסה לכתוב גישה ישירה לשדה: t1.energy = 50; — ואז לחץ Run',
     modalTitle: '🔒 שלב 7: אנקפסולציה — הכוח של private',
     modalBody:
       'זוכר שהגדרנו את כל השדות כ-private? עכשיו ננסה לגשת אליהם ישירות מ-Main.java.\n\n' +

@@ -7,6 +7,13 @@ import type { ClassSchema } from '../../parser/types';
 import { KNOWN_METHODS } from '../../constants/methodEffects';
 import './TaskChecklist.css';
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+// Strip single-line Java comments so hint text in comments doesn't satisfy conditions
+function stripComments(code: string): string {
+  return code.replace(/\/\/[^\n]*/g, '');
+}
+
 // ─── Task definitions ─────────────────────────────────────────────────────────
 
 interface TaskDef {
@@ -21,11 +28,6 @@ interface ConditionParams {
   instancesCreated: boolean;
   methodsRan: boolean;
   encapsulationViolation: boolean;
-}
-
-// Strip single-line Java comments so hint text in comments doesn't satisfy conditions
-function stripComments(code: string): string {
-  return code.replace(/\/\/[^\n]*/g, '');
 }
 
 function getTasksForStage(stage: Stage, p: ConditionParams): TaskDef[] {
@@ -45,37 +47,37 @@ function getTasksForStage(stage: Stage, p: ConditionParams): TaskDef[] {
   switch (stage) {
     case 1:
       return [
-        { label: 'בחר שדה ראשון מהרשימה למטה', done: privateCount >= 1 },
-        { label: 'בחר שדה שני (דרושים לפחות 2)', hint: 'בחר 2 שדות עם הסימן private', done: privateCount >= 2 },
+        { label: 'בחר שדה ראשון מלוח הבחירה', done: privateCount >= 1 },
+        { label: 'בחר שדה שני (דרושים לפחות 2)', hint: 'כל שדה מוגדר כ-private — מוגן!', done: privateCount >= 2 },
       ];
     case 2:
       return [
-        { label: 'בחר פעולה פנימית ראשונה מהרשימה', done: publicMethodCount >= 1 },
-        { label: 'בחר פעולה פנימית שנייה (דרושות לפחות 2)', hint: 'דרושות 2 פעולות פנימיות להמשך', done: publicMethodCount >= 2 },
+        { label: 'בחר פעולה פנימית ראשונה מלוח הבחירה', done: publicMethodCount >= 1 },
+        { label: 'בחר פעולה פנימית שנייה (דרושות לפחות 2)', hint: '2 פעולות נדרשות להמשיך', done: publicMethodCount >= 2 },
       ];
     case 3:
       return [
-        { label: 'הוסף קונסטרקטור מהרשימה למטה', done: hasConstructor },
-        { label: 'ודא שהקונסטרקטור מגדיר ערכים התחלתיים', hint: 'לדוגמה: energy = 100;', done: hasConstructor && constructorHasBody },
+        { label: 'בחר "קונסטרקטור" מלוח הבחירה למטה', done: hasConstructor },
+        { label: 'ודא שהקונסטרקטור כולל ערכים התחלתיים', hint: 'לדוגמה: energy = 100;', done: hasConstructor && constructorHasBody },
       ];
     case 4:
       return [
-        { label: 'הוסף את הפעולה toString() מהרשימה', hint: 'תמצא אותה בסעיף הפעולות הפנימיות', done: hasToString },
+        { label: 'בחר "toString()" מלוח הבחירה למטה', hint: 'תמצא אותה בסעיף ייצוג טקסטואלי', done: hasToString },
       ];
     case 5:
       return [
         { label: 'כתוב ב-Main.java: Teenager t1 = new Teenager();', hint: 'השתמש במילה new ליצירת אובייקט', done: mainHasNew },
-        { label: 'לחץ על כפתור Run ➤', hint: 'הריצה תיצור את המתבגר בזיכרון', done: p.instancesCreated },
+        { label: 'לחץ על כפתור Run ➤', hint: 'המתבגר יופיע בזיכרון!', done: p.instancesCreated },
       ];
     case 6:
       return [
-        { label: 'קרא לפעולה פנימית, לדוגמה: t1.study();', hint: 'כל הפעולות הפנימיות שהגדרת זמינות', done: mainHasMethodCall },
-        { label: 'הדפס את המצב לפני ואחרי — System.out.println(t1); פעמיים', hint: 'כדי לראות את השינוי בפועל', done: printlnCount >= 2 },
+        { label: 'קרא לפעולה פנימית, לדוגמה: t1.study();', hint: 'כל הפעולות שהגדרת זמינות', done: mainHasMethodCall },
+        { label: 'הדפס System.out.println(t1); פעמיים — לפני ואחרי', hint: 'כדי לראות את השינוי בפועל', done: printlnCount >= 2 },
         { label: 'לחץ על כפתור Run ➤', done: p.methodsRan },
       ];
     case 7:
       return [
-        { label: 'נסה לכתוב: t1.energy = 50;', hint: 'גישה ישירה לשדה פרטי מ-Main.java', done: mainHasDirectWrite },
+        { label: 'כתוב ב-Main.java: t1.energy = 50;', hint: 'גישה ישירה לשדה פרטי', done: mainHasDirectWrite },
         { label: 'לחץ Run ➤ וקרא את שגיאת הקומפיילר', hint: 'השגיאה היא השיעור!', done: p.encapsulationViolation },
       ];
   }
@@ -91,8 +93,8 @@ function TaskItem({ index, task, active }: { index: number; task: TaskDef; activ
   return (
     <motion.div
       className={`task-item ${task.done ? 'done' : ''} ${active && !task.done ? 'active' : ''}`}
-      animate={justCompleted ? { scale: [1, 1.04, 1] } : {}}
-      transition={{ duration: 0.35 }}
+      animate={justCompleted ? { scale: [1, 1.03, 1] } : {}}
+      transition={{ duration: 0.3 }}
     >
       <div className={`task-check ${task.done ? 'checked' : ''}`}>
         <AnimatePresence>
@@ -130,21 +132,23 @@ export function TaskChecklist() {
   const instancesCreated = useAppStore((s) => s.instancesCreated);
   const methodsRan = useAppStore((s) => s.methodsRan);
   const encapsulationViolation = useAppStore((s) => s.encapsulationViolation);
+  const pendingLevelComplete = useAppStore((s) => s.pendingLevelComplete);
+  const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
+  const activeFile = useAppStore((s) => s.activeFile);
 
   const isReviewing = viewingStage < currentStage;
   const config = STAGE_CONFIGS[viewingStage];
 
   const tasks = getTasksForStage(viewingStage, {
-    classSchema,
-    mainCode,
-    instancesCreated,
-    methodsRan,
-    encapsulationViolation,
+    classSchema, mainCode, instancesCreated, methodsRan, encapsulationViolation,
   });
 
   const allDone = tasks.every((t) => t.done);
-  // Find the first incomplete task index (to highlight the active one)
   const activeTaskIndex = tasks.findIndex((t) => !t.done);
+
+  // Show manual-edit suggestion when checklist is complete (pending 3s phase)
+  // and only for Teenager.java stages
+  const showManualEditPrompt = pendingLevelComplete && viewingStage <= 4 && activeFile === 'Teenager.java';
 
   return (
     <div className="task-checklist">
@@ -156,35 +160,61 @@ export function TaskChecklist() {
           exit={{ opacity: 0, y: 8 }}
           transition={{ duration: 0.25 }}
         >
+          {/* Action prompt — explicit instruction banner */}
+          {!isReviewing && !allDone && (
+            <div className="action-prompt" dir="rtl">
+              <span className="action-prompt-icon">👉</span>
+              <span>{config.actionPrompt}</span>
+            </div>
+          )}
+
           <div className="checklist-header" dir="rtl">
             <span className="checklist-title">{config.titleHebrew}</span>
-            {isReviewing && (
-              <span className="reviewing-tag">חזרה</span>
-            )}
+            {isReviewing && <span className="reviewing-tag">חזרה</span>}
           </div>
 
           <div className="checklist-tasks" dir="rtl">
             {tasks.map((task, i) => (
-              <TaskItem
-                key={i}
-                index={i}
-                task={task}
-                active={i === activeTaskIndex}
-              />
+              <TaskItem key={i} index={i} task={task} active={i === activeTaskIndex} />
             ))}
           </div>
 
+          {/* Stage complete banner */}
           <AnimatePresence>
             {allDone && (
               <motion.div
                 className="stage-complete-banner"
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                exit={{ opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 dir="rtl"
               >
-                🎉 {isReviewing ? 'שלב הושלם!' : 'מעולה! עובר לשלב הבא...'}
+                🎉 {isReviewing ? 'שלב הושלם!' : 'כל המשימות הושלמו!'}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Manual edit suggestion — appears during 3-second pending phase */}
+          <AnimatePresence>
+            {showManualEditPrompt && (
+              <motion.div
+                className="manual-edit-prompt"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.5, duration: 0.3 }}
+                dir="rtl"
+              >
+                <div className="manual-edit-text">
+                  💡 <strong>רוצה לנסות?</strong> ערוך את הקוד ישירות בעורך — שנה ערכים, הוסף שורות, ותראה מה קורה!
+                </div>
+                <button
+                  className="manual-edit-btn"
+                  onClick={() => setEditorReadOnly(false)}
+                >
+                  ✏️ ערוך ידנית
+                </button>
               </motion.div>
             )}
           </AnimatePresence>

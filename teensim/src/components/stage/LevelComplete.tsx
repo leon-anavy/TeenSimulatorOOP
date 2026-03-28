@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import { STAGE_CONFIGS } from '../../constants/stageConfig';
@@ -48,11 +49,20 @@ const COMPLETE_MESSAGES: Record<Stage, { icon: string; headline: string; detail:
 
 export function LevelComplete() {
   const showLevelComplete = useAppStore((s) => s.showLevelComplete);
+  const pendingLevelComplete = useAppStore((s) => s.pendingLevelComplete);
   const levelCompleteForStage = useAppStore((s) => s.levelCompleteForStage);
   const currentStage = useAppStore((s) => s.currentStage);
   const isModuleComplete = useAppStore((s) => s.isModuleComplete);
   const dismissLevelComplete = useAppStore((s) => s.dismissLevelComplete);
+  const triggerLevelComplete = useAppStore((s) => s.triggerLevelComplete);
   const setActiveFile = useAppStore((s) => s.setActiveFile);
+
+  // 3-second delay: when pendingLevelComplete becomes true, wait then show overlay
+  useEffect(() => {
+    if (!pendingLevelComplete) return;
+    const timer = setTimeout(() => triggerLevelComplete(), 3000);
+    return () => clearTimeout(timer);
+  }, [pendingLevelComplete]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleNext() {
     // Switch to the required file for the new stage
