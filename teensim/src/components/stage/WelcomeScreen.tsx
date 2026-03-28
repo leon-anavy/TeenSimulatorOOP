@@ -67,14 +67,17 @@ export function WelcomeScreen() {
 
         <div className="welcome-credit" dir="rtl">
           נוצר על ידי{' '}
+          <a href="mailto:leon.anavy@reali.org.il">Leon Anavy</a>
+          {' '}• בית הספר הריאלי העברי בחיפה
+          <br />
+          קוד המקור זמין ב-{' '}
           <a
             href="https://github.com/leon-anavy/TeenSimulatorOOP"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Leon Anavy
+            GitHub
           </a>
-          {' '}• בית הספר הריאלי העברי בחיפה
         </div>
       </motion.div>
     </div>

@@ -16,8 +16,29 @@ import { AttributePicker } from '../stage/AttributePicker';
 import realiLogo from '../../assets/reali_logo.png';
 import './AppShell.css';
 
+function useDownload() {
+  const teenagerCode = useAppStore((s) => s.teenagerCode);
+  const mainCode = useAppStore((s) => s.mainCode);
+  const mainTabUnlocked = useAppStore((s) => s.mainTabUnlocked);
+
+  return function handleDownload() {
+    function downloadFile(filename: string, content: string) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    downloadFile('Teenager.java', teenagerCode);
+    if (mainTabUnlocked) downloadFile('Main.java', mainCode);
+  };
+}
+
 export function AppShell() {
   useParseTeenager();
+  const handleDownload = useDownload();
   const currentStage = useAppStore((s) => s.currentStage);
   const viewingStage = useAppStore((s) => s.viewingStage);
   const setViewingStage = useAppStore((s) => s.setViewingStage);
@@ -70,6 +91,11 @@ export function AppShell() {
         {/* Left Pane: Editor */}
         <div className="left-pane">
           <FileTabs />
+          <div className="editor-toolbar">
+            <button className="editor-download-btn" onClick={handleDownload} title="הורד את קבצי הג'אווה למחשב">
+              ⬇ הורד קבצים
+            </button>
+          </div>
           <div className="editor-area">
             <CodeEditor />
           </div>
@@ -88,29 +114,23 @@ export function AppShell() {
         </div>
       </div>
 
-      <footer className="app-footer">
-        <span dir="rtl">
+      <footer className="app-footer" dir="rtl">
+        <span>
           נוצר על ידי{' '}
-          <a
-            href="https://github.com/leon-anavy/TeenSimulatorOOP"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Leon Anavy
-          </a>
-          {' '}| בית הספר הריאלי העברי בחיפה
+          <a href="mailto:leon.anavy@reali.org.il">Leon Anavy</a>
+          {' '}• בית הספר הריאלי העברי בחיפה
         </span>
         <a
           className="footer-github"
           href="https://github.com/leon-anavy/TeenSimulatorOOP"
           target="_blank"
           rel="noopener noreferrer"
-          title="GitHub Repository"
+          title="קוד המקור זמין ב-GitHub"
         >
           <svg height="14" viewBox="0 0 16 16" width="14" fill="currentColor">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
           </svg>
-          GitHub
+          קוד המקור ב-GitHub
         </a>
       </footer>
     </div>
