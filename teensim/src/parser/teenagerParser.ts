@@ -6,6 +6,18 @@ import type {
 import { tokenize } from './tokenizer';
 
 const JAVA_TYPES: JavaType[] = ['int', 'double', 'boolean', 'String', 'void'];
+
+/** Consume a brace-matched block starting at the current `{`. Safe even if braces are unclosed. */
+function skipBlock(cursor: TokenCursor): void {
+  if (!cursor.at('LBRACE')) return;
+  cursor.consume(); // opening {
+  let depth = 1;
+  while (!cursor.done() && depth > 0) {
+    const t = cursor.consume();
+    if (t.type === 'LBRACE') depth++;
+    if (t.type === 'RBRACE') depth--;
+  }
+}
 const SUPPORTED_FIELDS = new Set(['energy', 'happiness', 'gpa', 'phoneBattery', 'isHungry']);
 
 function isJavaType(v: string): v is JavaType {
@@ -119,8 +131,9 @@ function parseBodyStatements(cursor: TokenCursor, fieldNames: Set<string>): Body
     } else if (ident?.type === 'IDENTIFIER') {
       cursor.consume();
       // skip unknown statement
-      while (!cursor.done() && !cursor.at('SEMICOLON') && !cursor.at('LBRACE')) cursor.consume();
-      cursor.expect('SEMICOLON');
+      while (!cursor.done() && !cursor.at('SEMICOLON') && !cursor.at('LBRACE') && !cursor.at('RBRACE')) cursor.consume();
+      if (cursor.at('LBRACE')) skipBlock(cursor);
+      else cursor.expect('SEMICOLON');
       continue;
     } else {
       // skip anything else
@@ -190,9 +203,10 @@ export function parseTeenager(source: string): TeenagerParseResult {
           suggestion: 'private',
         });
       }
-      // skip line
+      // skip line or block
       while (!cursor.done() && !cursor.at('SEMICOLON') && !cursor.at('LBRACE') && !cursor.at('RBRACE')) cursor.consume();
-      cursor.expect('SEMICOLON');
+      if (cursor.at('LBRACE')) skipBlock(cursor);
+      else cursor.expect('SEMICOLON');
       continue;
     }
     cursor.consume();
@@ -218,7 +232,8 @@ export function parseTeenager(source: string): TeenagerParseResult {
     // method or field: need a type
     if (!isJavaType(typeTok.value)) {
       while (!cursor.done() && !cursor.at('SEMICOLON') && !cursor.at('LBRACE') && !cursor.at('RBRACE')) cursor.consume();
-      if (cursor.at('SEMICOLON')) cursor.consume();
+      if (cursor.at('LBRACE')) skipBlock(cursor);
+      else if (cursor.at('SEMICOLON')) cursor.consume();
       continue;
     }
     cursor.consume();
