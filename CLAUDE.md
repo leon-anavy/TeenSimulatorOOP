@@ -6,21 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **TeenSim** is a web-based pedagogical tool for teaching 10th-grade OOP concepts in Java via an interactive "Teenager Simulator." Students define classes, instantiate objects, and call methods while watching a visual avatar react in real time.
 
-This repository currently contains specification documents only — no implementation files exist yet. The specs fully define the architecture to be built.
+The app is fully implemented and deployed at **https://leon-anavy.github.io/TeenSimulatorOOP/** via GitHub Pages (Actions workflow on push to `master`). All code lives in `teensim/`.
 
-## Specification Documents
+## Tech Stack
 
-- **Technical Specification.md** — Core architecture, UI/UX layout, multi-file pseudo-Java interpreter design, contextual visualizer engine, and API/data flow
-- **Functional Logic.md** — Cross-file compiler engine, runtime state management, stage transition logic, and Object Inspector behavior
-- **Content Library.md** — Mapping of Java class attributes and methods to visual assets and animations
-- **Pedagogical Script.md** — Instructional text (in Hebrew), required actions per stage, and student feedback messages
+- **Frontend:** React 18 + TypeScript (`verbatimModuleSyntax`, `erasableSyntaxOnly`)
+- **State Management:** Zustand with immer middleware (`teensim/src/store/useAppStore.ts`)
+- **Code Editor:** Monaco Editor (`@monaco-editor/react`) with custom `pseudo-java` language
+- **Animations:** Framer Motion
+- **Language:** Hebrew UI (audience: Israeli 10th graders)
+- **Build:** Vite (`teensim/`)
 
-## Planned Tech Stack
+## Deploy Workflow
 
-- **Frontend:** React + TypeScript
-- **State Management:** Zustand or Redux
-- **Code Editor:** Monaco Editor (with custom pseudo-Java syntax highlighting)
-- **Language:** Hebrew UI (primary audience: Israeli 10th graders)
+**After every code change, automatically:**
+1. `cd teensim && npm run build` — verify build passes
+2. `cd .. && git add -A && git commit -m "<message>\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>" && git push origin master`
+
+Do not ask for confirmation or a commit message. GitHub Actions deploys to GitHub Pages automatically on push.
 
 ## Architecture
 
@@ -45,13 +48,16 @@ Left pane: Monaco Editor with two file tabs (`Teenager.java`, `Main.java`). Righ
 - **Virtual Memory** — state persists across code edits (not reset on each keystroke)
 - **Object Inspector** — live JSON tree showing all instances and their properties
 
-### 4-Stage Learning Progression
-| Stage | File | Concept | Unlock Condition |
-|---|---|---|---|
-| 1: Blueprint | Teenager.java | Define `private` fields | ≥2 fields defined |
-| 2: Birth | Main.java | `new` keyword / instantiation | Avatar appears with animation |
-| 3: Interaction | Main.java | Method calls, state change | Console opens, animations play |
-| 4: Encapsulation | Both | Access modifiers, getters/setters | Error triggered on private field access |
+### 7-Stage Learning Progression
+| Stage | File | Concept |
+|---|---|---|
+| 1 | Teenager.java | Define ≥2 `private` fields via AttributePicker |
+| 2 | Teenager.java | Add ≥2 public methods |
+| 3 | Teenager.java | Add constructor with initial values |
+| 4 | Teenager.java | Add `toString()` |
+| 5 | Main.java | Instantiate with `new`, press Run |
+| 6 | Main.java | Call a method, print before/after, press Run |
+| 7 | Main.java | Attempt direct field access → encapsulation error |
 
 ### Teenager Attributes & Method Effects
 | Attribute | Type | Initial |
