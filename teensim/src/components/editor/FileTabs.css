@@ -53,3 +53,15 @@
   animation: blink-tab 0.8s ease-in-out infinite;
   color: #a6e3a1;
 }
+
+.download-btn {
+  margin-left: auto;
+  color: #a6adc8;
+  font-size: 12px;
+  padding: 10px 14px;
+}
+
+.download-btn:hover {
+  background: #313244;
+  color: #cdd6f4;
+}

@@ -57,6 +57,24 @@ export function LevelComplete() {
   const triggerLevelComplete = useAppStore((s) => s.triggerLevelComplete);
   const setActiveFile = useAppStore((s) => s.setActiveFile);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
+  const teenagerCode = useAppStore((s) => s.teenagerCode);
+  const mainCode = useAppStore((s) => s.mainCode);
+  const mainTabUnlocked = useAppStore((s) => s.mainTabUnlocked);
+
+  function downloadFile(filename: string, content: string) {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleDownload() {
+    downloadFile('Teenager.java', teenagerCode);
+    if (mainTabUnlocked) downloadFile('Main.java', mainCode);
+  }
 
   // 3-second delay: when pendingLevelComplete becomes true, wait then show overlay
   useEffect(() => {
@@ -125,6 +143,13 @@ export function LevelComplete() {
                 </button>
               </div>
             )}
+
+            <div className="lc-download-note" dir="rtl">
+              <span>💾 שמור את הקוד שלך — המשך לתכנת גם בסביבת הפיתוח!</span>
+              <button className="lc-download-btn" onClick={handleDownload}>
+                ⬇ הורד קבצים
+              </button>
+            </div>
 
             {isFinal ? (
               <div className="level-complete-actions">

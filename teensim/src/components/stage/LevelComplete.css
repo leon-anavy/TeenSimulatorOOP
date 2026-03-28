@@ -95,6 +95,41 @@
   background: rgba(249, 226, 175, 0.15);
 }
 
+.lc-download-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 24px 16px;
+  padding: 10px 14px;
+  background: rgba(137, 180, 250, 0.07);
+  border: 1px solid rgba(137, 180, 250, 0.25);
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: #89b4fa;
+  line-height: 1.5;
+  width: calc(100% - 48px);
+  box-sizing: border-box;
+}
+
+.lc-download-btn {
+  background: transparent;
+  border: 1px solid rgba(137, 180, 250, 0.4);
+  color: #89b4fa;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.lc-download-btn:hover {
+  background: rgba(137, 180, 250, 0.15);
+}
+
 .level-complete-actions {
   display: flex;
   gap: 10px;
