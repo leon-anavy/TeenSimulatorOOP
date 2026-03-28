@@ -132,7 +132,6 @@ export function TaskChecklist() {
   const instancesCreated = useAppStore((s) => s.instancesCreated);
   const methodsRan = useAppStore((s) => s.methodsRan);
   const encapsulationViolation = useAppStore((s) => s.encapsulationViolation);
-  const pendingLevelComplete = useAppStore((s) => s.pendingLevelComplete);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
   const activeFile = useAppStore((s) => s.activeFile);
 
@@ -146,9 +145,8 @@ export function TaskChecklist() {
   const allDone = tasks.every((t) => t.done);
   const activeTaskIndex = tasks.findIndex((t) => !t.done);
 
-  // Show manual-edit suggestion when checklist is complete (pending 3s phase)
-  // and only for Teenager.java stages
-  const showManualEditPrompt = pendingLevelComplete && viewingStage <= 4 && activeFile === 'Teenager.java';
+  // Show manual-edit suggestion whenever checklist is fully complete on a Teenager.java stage
+  const showManualEditPrompt = allDone && viewingStage <= 4 && activeFile === 'Teenager.java';
 
   return (
     <div className="task-checklist">

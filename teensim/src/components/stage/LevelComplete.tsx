@@ -56,6 +56,7 @@ export function LevelComplete() {
   const dismissLevelComplete = useAppStore((s) => s.dismissLevelComplete);
   const triggerLevelComplete = useAppStore((s) => s.triggerLevelComplete);
   const setActiveFile = useAppStore((s) => s.setActiveFile);
+  const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
 
   // 3-second delay: when pendingLevelComplete becomes true, wait then show overlay
   useEffect(() => {
@@ -78,6 +79,13 @@ export function LevelComplete() {
   if (!levelCompleteForStage) return null;
   const msg = COMPLETE_MESSAGES[levelCompleteForStage];
   const isFinal = isModuleComplete && levelCompleteForStage === 7;
+  // Offer manual editing for the Teenager.java stages (1–4)
+  const showEditPrompt = levelCompleteForStage <= 4;
+
+  function handleEditManually() {
+    setEditorReadOnly(false);
+    dismissLevelComplete(false); // stay on completed stage, editor unlocked
+  }
 
   return (
     <AnimatePresence>
@@ -108,6 +116,15 @@ export function LevelComplete() {
 
             <h2 className="level-complete-headline">{msg.headline}</h2>
             <p className="level-complete-detail">{msg.detail}</p>
+
+            {showEditPrompt && (
+              <div className="lc-edit-prompt" dir="rtl">
+                <span>💡 רוצה לנסות לערוך את הקוד ישירות?</span>
+                <button className="lc-edit-btn" onClick={handleEditManually}>
+                  ✏️ ערוך ידנית
+                </button>
+              </div>
+            )}
 
             {isFinal ? (
               <div className="level-complete-actions">
