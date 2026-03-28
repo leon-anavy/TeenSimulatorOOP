@@ -30,19 +30,35 @@ export function WelcomeScreen() {
             נגדיר מה הוא יודע, מה הוא יכול לעשות, ואיך הוא מגן על המידע שלו.
           </p>
 
+          <div className="welcome-two-files" dir="rtl">
+            <div className="two-files-title">📂 נעבוד עם שני קבצים נפרדים — כמו בפרויקטים אמיתיים בג'אווה:</div>
+            <div className="two-files-row">
+              <div className="two-file-chip file-chip-teenager">
+                <span className="file-chip-name">Teenager.java</span>
+                <span className="file-chip-desc">הגדרת המחלקה — השרטוט</span>
+              </div>
+              <div className="two-files-arrow">←</div>
+              <div className="two-file-chip file-chip-main">
+                <span className="file-chip-name">Main.java</span>
+                <span className="file-chip-desc">הקוד שמשתמש במחלקה</span>
+              </div>
+            </div>
+            <div className="two-files-note">הפרדה זו היא עיקרון בסיסי בתכנות מונחה עצמים: הגדרת הסוג בקובץ אחד, שימוש בו בקובץ אחר.</div>
+          </div>
+
           <div className="welcome-steps">
             <div className="welcome-step">
               <span className="step-icon">🏗️</span>
               <div>
                 <div className="step-title">נגדיר שדות ופעולות</div>
-                <div className="step-desc">המידע שהמתבגר מחזיק וה"דברים" שהוא יכול לעשות</div>
+                <div className="step-desc">המידע שהמתבגר מחזיק וה"דברים" שהוא יכול לעשות — ב-Teenager.java</div>
               </div>
             </div>
             <div className="welcome-step">
               <span className="step-icon">✨</span>
               <div>
                 <div className="step-title">ניצור אובייקטים חיים</div>
-                <div className="step-desc">מהשרטוט ליצור מתבגרים אמיתיים שמסתובבים בזיכרון</div>
+                <div className="step-desc">ב-Main.java נשתמש במחלקה כדי ליצור מתבגרים אמיתיים</div>
               </div>
             </div>
             <div className="welcome-step">
