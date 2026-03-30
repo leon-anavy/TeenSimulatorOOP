@@ -11,11 +11,16 @@ cd ..
 echo "📦 Staging changes..."
 git add -A
 
-echo "💬 Commit message (leave blank to cancel):"
-read -r MSG
-if [ -z "$MSG" ]; then
-  echo "❌ Cancelled — no commit message provided."
-  exit 1
+# Accept commit message as first argument, or prompt interactively
+if [ -n "$1" ]; then
+  MSG="$1"
+else
+  echo "💬 Commit message (leave blank to cancel):"
+  read -r MSG
+  if [ -z "$MSG" ]; then
+    echo "❌ Cancelled — no commit message provided."
+    exit 1
+  fi
 fi
 
 git commit -m "$MSG

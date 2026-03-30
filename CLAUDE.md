@@ -14,11 +14,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Deploy Workflow
 
-**After every code change, automatically:**
-1. `cd teensim && npm run build` — verify TypeScript + Vite build passes
-2. `cd .. && git add -A && git commit -m "<message>\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>" && git push origin master`
+**After every code change, automatically run:**
+```bash
+cd /Users/leonanavy/TeenSimulatorOOP && bash deploy.sh "<commit message>"
+```
 
-GitHub Actions deploys to GitHub Pages automatically on push. Do NOT ask for confirmation or a commit message.
+`deploy.sh` builds, commits (with Co-Authored-By line), and pushes to `master`. GitHub Actions then deploys to GitHub Pages automatically. Do NOT ask for confirmation or a commit message — write one and pass it as the argument.
 
 **Dev server:** `cd teensim && npm run dev` → http://localhost:5173
 
