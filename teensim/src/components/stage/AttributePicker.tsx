@@ -82,6 +82,25 @@ const METHOD_TOAST_ADD: Record<string, string> = {
   toString:      '🔤 toString() נוספה — System.out.println(t1) יעבוד אוטומטית!',
 };
 
+// ─── Method → required fields ─────────────────────────────────────────────────
+
+const METHOD_REQUIRES: Record<string, string[]> = {
+  study:         ['energy', 'gpa'],
+  sleep:         ['energy', 'happiness'],
+  eat:           ['isHungry', 'energy'],
+  playGames:     ['happiness', 'energy'],
+  talkToFriends: ['happiness', 'phoneBattery'],
+  toString:      ['energy', 'happiness'],
+};
+
+const FIELD_LABEL: Record<string, string> = {
+  energy:       'energy ⚡',
+  happiness:    'happiness 😊',
+  gpa:          'gpa 📚',
+  phoneBattery: 'phoneBattery 🔋',
+  isHungry:     'isHungry 🍕',
+};
+
 const FIELD_DEFAULTS: Record<string, string> = {
   energy: '100',
   happiness: '80',
@@ -161,10 +180,18 @@ export function AttributePicker() {
     if (definedMethodNames.has(tpl.name)) {
       setTeenagerCode(removeFromClass(teenagerCode, tpl.code));
       showToast(`✗ ${tpl.name}() הוסרה מהשרטוט`);
-    } else {
-      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + tpl.code + '\n'));
-      showToast(METHOD_TOAST_ADD[tpl.name] ?? `✓ ${tpl.name}() נוספה`);
+      return;
     }
+    // Validate required fields exist before adding
+    const required = METHOD_REQUIRES[tpl.name] ?? [];
+    const missing = required.filter((f) => !definedFieldNames.has(f));
+    if (missing.length > 0) {
+      const missingLabels = missing.map((f) => FIELD_LABEL[f] ?? f).join(', ');
+      showToast(`⚠️ לא ניתן להוסיף ${tpl.name}() — חסרים שדות: ${missingLabels}`);
+      return;
+    }
+    setTeenagerCode(insertIntoClass(teenagerCode, '\n' + tpl.code + '\n'));
+    showToast(METHOD_TOAST_ADD[tpl.name] ?? `✓ ${tpl.name}() נוספה`);
   }
 
   function toggleConstructor() {
@@ -246,14 +273,21 @@ export function AttributePicker() {
               <div className="picker-section-label">פעולות פנימיות — מה המתבגר עושה</div>
               {behavioralMethods.map((tpl) => {
                 const checked = definedMethodNames.has(tpl.name);
+                const missing = (METHOD_REQUIRES[tpl.name] ?? []).filter((f) => !definedFieldNames.has(f));
+                const unavailable = !checked && missing.length > 0;
                 return (
-                  <label key={tpl.name} className={`picker-item ${checked ? 'checked' : ''}`}>
+                  <label
+                    key={tpl.name}
+                    className={`picker-item ${checked ? 'checked' : ''} ${unavailable ? 'unavailable' : ''}`}
+                    title={unavailable ? `דרושים שדות: ${missing.map((f) => FIELD_LABEL[f] ?? f).join(', ')}` : ''}
+                  >
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleMethod(tpl)}
                     />
                     <span className="picker-label">{tpl.labelHe}</span>
+                    {unavailable && <span className="picker-missing">🔒</span>}
                   </label>
                 );
               })}
@@ -266,14 +300,20 @@ export function AttributePicker() {
               <div className="picker-section-label">ייצוג טקסטואלי</div>
               {(() => {
                 const checked = definedMethodNames.has(toStringTemplate.name);
+                const missing = (METHOD_REQUIRES[toStringTemplate.name] ?? []).filter((f) => !definedFieldNames.has(f));
+                const unavailable = !checked && missing.length > 0;
                 return (
-                  <label className={`picker-item ${checked ? 'checked' : ''}`}>
+                  <label
+                    className={`picker-item ${checked ? 'checked' : ''} ${unavailable ? 'unavailable' : ''}`}
+                    title={unavailable ? `דרושים שדות: ${missing.map((f) => FIELD_LABEL[f] ?? f).join(', ')}` : ''}
+                  >
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleMethod(toStringTemplate)}
                     />
                     <span className="picker-label">{toStringTemplate.labelHe}</span>
+                    {unavailable && <span className="picker-missing">🔒</span>}
                   </label>
                 );
               })()}

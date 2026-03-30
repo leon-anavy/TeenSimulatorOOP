@@ -76,6 +76,15 @@
   border-color: rgba(166, 227, 161, 0.25);
 }
 
+.picker-item.unavailable {
+  opacity: 0.45;
+}
+
+.picker-missing {
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
 .picker-item input[type="checkbox"] {
   accent-color: #a6e3a1;
   width: 14px;
