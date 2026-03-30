@@ -45,6 +45,8 @@ export function AppShell() {
   const setActiveFile = useAppStore((s) => s.setActiveFile);
   const activeFile = useAppStore((s) => s.activeFile);
   const jumpToMain = useAppStore((s) => s.jumpToMain);
+  const editorReadOnly = useAppStore((s) => s.editorReadOnly);
+  const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
 
   function handleDotClick(s: Stage) {
     if (s > currentStage) return;
@@ -92,6 +94,15 @@ export function AppShell() {
         <div className="left-pane">
           <FileTabs />
           <div className="editor-toolbar">
+            {activeFile === 'Teenager.java' && viewingStage === currentStage && currentStage <= 4 && (
+              <button
+                className={`editor-lock-btn ${editorReadOnly ? 'locked' : 'unlocked'}`}
+                onClick={() => setEditorReadOnly(!editorReadOnly)}
+                title={editorReadOnly ? 'לחץ לפתיחת העורך לעריכה חופשית' : 'לחץ לנעילת העורך'}
+              >
+                {editorReadOnly ? '🔒 עורך נעול' : '🔓 עורך פתוח'}
+              </button>
+            )}
             <button className="editor-download-btn" onClick={handleDownload} title="הורד את קבצי הג'אווה למחשב">
               ⬇ הורד קבצים
             </button>

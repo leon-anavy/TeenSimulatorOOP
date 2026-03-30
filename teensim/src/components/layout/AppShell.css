@@ -79,6 +79,38 @@
   flex-shrink: 0;
 }
 
+.editor-lock-btn {
+  background: transparent;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 3px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.editor-lock-btn.locked {
+  color: #f38ba8;
+  border-color: rgba(243, 139, 168, 0.4);
+}
+
+.editor-lock-btn.locked:hover {
+  background: rgba(243, 139, 168, 0.08);
+  border-color: #f38ba8;
+}
+
+.editor-lock-btn.unlocked {
+  color: #a6e3a1;
+  border-color: rgba(166, 227, 161, 0.4);
+}
+
+.editor-lock-btn.unlocked:hover {
+  background: rgba(166, 227, 161, 0.08);
+  border-color: #a6e3a1;
+}
+
 .editor-download-btn {
   background: transparent;
   border: 1px solid #45475a;

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import { STAGE_CONFIGS } from '../../constants/stageConfig';
@@ -133,7 +133,6 @@ export function TaskChecklist() {
   const methodsRan = useAppStore((s) => s.methodsRan);
   const encapsulationViolation = useAppStore((s) => s.encapsulationViolation);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
-  const activeFile = useAppStore((s) => s.activeFile);
 
   const isReviewing = viewingStage < currentStage;
   const config = STAGE_CONFIGS[viewingStage];
@@ -145,8 +144,15 @@ export function TaskChecklist() {
   const allDone = tasks.every((t) => t.done);
   const activeTaskIndex = tasks.findIndex((t) => !t.done);
 
-  // Show manual-edit suggestion whenever checklist is fully complete on a Teenager.java stage
-  const showManualEditPrompt = allDone && viewingStage <= 4 && activeFile === 'Teenager.java';
+  // Auto-unlock editor when checklist completes on the current Teenager.java stage
+  const prevAllDone = useRef(false);
+  useEffect(() => {
+    const isCurrentStage = viewingStage === currentStage && viewingStage <= 4;
+    if (allDone && !prevAllDone.current && isCurrentStage) {
+      setEditorReadOnly(false);
+    }
+    prevAllDone.current = allDone;
+  }, [allDone, viewingStage, currentStage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="task-checklist">
@@ -193,29 +199,6 @@ export function TaskChecklist() {
             )}
           </AnimatePresence>
 
-          {/* Manual edit suggestion — appears during 3-second pending phase */}
-          <AnimatePresence>
-            {showManualEditPrompt && (
-              <motion.div
-                className="manual-edit-prompt"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.5, duration: 0.3 }}
-                dir="rtl"
-              >
-                <div className="manual-edit-text">
-                  💡 <strong>רוצה לנסות?</strong> ערוך את הקוד ישירות בעורך — שנה ערכים, הוסף שורות, ותראה מה קורה!
-                </div>
-                <button
-                  className="manual-edit-btn"
-                  onClick={() => setEditorReadOnly(false)}
-                >
-                  ✏️ ערוך ידנית
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
       </AnimatePresence>
     </div>
