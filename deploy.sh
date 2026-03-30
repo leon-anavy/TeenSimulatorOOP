@@ -3,6 +3,9 @@ set -e
 
 cd "$(dirname "$0")/teensim"
 
+echo "🧪 Running tests..."
+npm run test
+
 echo "🔨 Building..."
 npm run build
 
