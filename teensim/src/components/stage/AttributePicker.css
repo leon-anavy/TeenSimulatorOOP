@@ -33,34 +33,34 @@
 }
 
 .picker-body {
-  padding: 8px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   direction: rtl;
 }
 
 .picker-section {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
 }
 
 .picker-section-label {
-  font-size: 10px;
+  font-size: 9.5px;
   color: #6c7086;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   padding: 0 2px;
 }
 
 .picker-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 8px;
-  border-radius: 6px;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.15s;
   user-select: none;
@@ -86,8 +86,9 @@
 
 .picker-label {
   flex: 1;
-  font-size: 12px;
+  font-size: 11px;
   color: #cdd6f4;
+  line-height: 1.3;
 }
 
 /* Toast notification — appears near the editor when a checkbox is toggled */

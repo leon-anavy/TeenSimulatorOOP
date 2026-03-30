@@ -105,9 +105,11 @@ export function AppShell() {
         {/* Right Pane: Checklist + Picker + Simulation + Inspector + Console */}
         <div className="right-pane">
           <TaskChecklist />
-          {activeFile === 'Teenager.java' && <AttributePicker />}
-          <div className="visualizer-area">
-            <VisualizerPane />
+          <div className="picker-visualizer-row">
+            {activeFile === 'Teenager.java' && <AttributePicker />}
+            <div className="visualizer-area">
+              <VisualizerPane />
+            </div>
           </div>
           <ObjectInspector />
           <ConsolePanel />

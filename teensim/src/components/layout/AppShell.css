@@ -42,8 +42,28 @@
   overflow: hidden;
 }
 
-.visualizer-area {
+.picker-visualizer-row {
+  display: flex;
+  flex-direction: row;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.picker-visualizer-row .attribute-picker {
+  width: 52%;
+  flex-shrink: 0;
+  overflow-y: auto;
+  margin: 0 0 0 8px;
+  border-radius: 10px 10px 0 0;
+}
+
+.picker-visualizer-row .visualizer-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.visualizer-area {
   overflow: hidden;
   position: relative;
 }
