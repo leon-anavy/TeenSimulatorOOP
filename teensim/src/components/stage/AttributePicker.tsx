@@ -133,18 +133,11 @@ function insertIntoClass(code: string, snippet: string): string {
 }
 
 function removeFromClass(code: string, snippet: string): string {
-  const lines = snippet.split('\n');
-  let result = code;
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-    result = result.replace(new RegExp(`[ \\t]*${escapeRegex(trimmed)}\\n?`, ''), '');
-  }
-  return result;
-}
-
-function escapeRegex(s: string) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Match the exact snippet with its leading newline (as inserted by insertIntoClass)
+  const target = '\n' + snippet;
+  const idx = code.indexOf(target);
+  if (idx !== -1) return code.slice(0, idx) + code.slice(idx + target.length);
+  return code;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
