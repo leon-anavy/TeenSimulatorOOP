@@ -125,9 +125,11 @@ function removeConstructor(code: string): string {
 // ─── Code insertion helpers ───────────────────────────────────────────────────
 
 function insertIntoClass(code: string, snippet: string): string {
-  const lastBrace = code.lastIndexOf('}');
-  if (lastBrace === -1) return code + '\n' + snippet;
-  return code.slice(0, lastBrace) + snippet + '\n' + code.slice(lastBrace);
+  // Scan backwards past trailing whitespace to find the class closing brace
+  let i = code.length - 1;
+  while (i >= 0 && (code[i] === '\n' || code[i] === '\r' || code[i] === ' ' || code[i] === '\t')) i--;
+  if (i < 0 || code[i] !== '}') return code + '\n' + snippet;
+  return code.slice(0, i) + snippet + '\n' + code.slice(i);
 }
 
 function removeFromClass(code: string, snippet: string): string {
