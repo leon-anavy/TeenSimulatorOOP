@@ -88,23 +88,17 @@ export function AvatarBase({ state, showBlueprint = false }: Props) {
         {!showBlueprint && (
           <path d="M 33 55 Q 40 62 47 55" stroke="#74c7ec" strokeWidth="2" fill="none" />
         )}
-        {/* Reali school badge on left chest */}
+        {/* Reali school logo on chest */}
         {!showBlueprint && (
-          <g id="reali-badge">
-            {/* Shield body */}
-            <path d="M 29 63 L 37 63 L 37 72 Q 33 76 29 72 Z" fill="#1a3a8c" />
-            {/* Gold shield border */}
-            <path d="M 29 63 L 37 63 L 37 72 Q 33 76 29 72 Z"
-              fill="none" stroke="#d4a017" strokeWidth="0.8" />
-            {/* Gold horizontal divider */}
-            <line x1="29" y1="67" x2="37" y2="67" stroke="#d4a017" strokeWidth="0.5" />
-            {/* "ר" for Reali */}
-            <text x="33" y="65.5" fontSize="4" textAnchor="middle"
-              fill="#ffd700" fontWeight="bold" fontFamily="serif">ר</text>
-            {/* Stars bottom half */}
-            <text x="31" y="72.5" fontSize="3.5" textAnchor="middle" fill="#ffd700">✦</text>
-            <text x="35" y="72.5" fontSize="3.5" textAnchor="middle" fill="#ffd700">✦</text>
-          </g>
+          <image
+            href={`${import.meta.env.BASE_URL}reali_logo.png`}
+            x="27"
+            y="67"
+            width="26"
+            height="14"
+            preserveAspectRatio="xMidYMid meet"
+            style={{ mixBlendMode: 'multiply' }}
+          />
         )}
       </g>
 
