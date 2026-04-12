@@ -92,10 +92,10 @@ export function AvatarBase({ state, showBlueprint = false }: Props) {
         {!showBlueprint && (
           <image
             href={`${import.meta.env.BASE_URL}reali_logo.png`}
-            x="27"
-            y="67"
-            width="26"
-            height="14"
+            x="25"
+            y="57"
+            width="14"
+            height="8"
             preserveAspectRatio="xMidYMid meet"
             style={{ mixBlendMode: 'multiply' }}
           />
