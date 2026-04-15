@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import { STAGE_CONFIGS } from '../../constants/stageConfig';
@@ -8,16 +7,15 @@ export function StageModal() {
   const viewingStage = useAppStore((s) => s.viewingStage);
   const welcomeCompleted = useAppStore((s) => s.welcomeCompleted);
   const showLevelComplete = useAppStore((s) => s.showLevelComplete);
+  const seenStageModals = useAppStore((s) => s.seenStageModals);
+  const stageModalOpen = useAppStore((s) => s.stageModalOpen);
+  const markStageModalSeen = useAppStore((s) => s.markStageModalSeen);
+
   const config = STAGE_CONFIGS[viewingStage];
-  const [dismissed, setDismissed] = useState(false);
 
-  // Reset every time viewingStage changes — show modal again
-  useEffect(() => {
-    setDismissed(false);
-  }, [viewingStage]);
-
-  // Only show after welcome is done and no level-complete screen is visible
-  const show = !dismissed && welcomeCompleted && !showLevelComplete;
+  // Show automatically only on first visit; also show when manually reopened
+  const isFirstVisit = !seenStageModals.includes(viewingStage);
+  const show = welcomeCompleted && !showLevelComplete && (isFirstVisit || stageModalOpen);
 
   return (
     <AnimatePresence>
@@ -47,7 +45,7 @@ export function StageModal() {
 
             <button
               className="stage-modal-btn"
-              onClick={() => setDismissed(true)}
+              onClick={() => markStageModalSeen(viewingStage)}
             >
               {config.modalButtonText} →
             </button>

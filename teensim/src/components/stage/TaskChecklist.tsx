@@ -133,6 +133,7 @@ export function TaskChecklist() {
   const methodsRan = useAppStore((s) => s.methodsRan);
   const encapsulationViolation = useAppStore((s) => s.encapsulationViolation);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
+  const openStageModal = useAppStore((s) => s.openStageModal);
 
   const isReviewing = viewingStage < currentStage;
   const config = STAGE_CONFIGS[viewingStage];
@@ -174,7 +175,16 @@ export function TaskChecklist() {
 
           <div className="checklist-header" dir="rtl">
             <span className="checklist-title">{config.titleHebrew}</span>
-            {isReviewing && <span className="reviewing-tag">חזרה</span>}
+            <div className="checklist-header-actions">
+              {isReviewing && <span className="reviewing-tag">חזרה</span>}
+              <button
+                className="stage-info-btn"
+                onClick={openStageModal}
+                title="הצג הסבר על השלב"
+              >
+                ℹ
+              </button>
+            </div>
           </div>
 
           <div className="checklist-tasks" dir="rtl">

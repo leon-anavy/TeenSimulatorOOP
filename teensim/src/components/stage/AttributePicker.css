@@ -5,6 +5,8 @@
   overflow: hidden;
   flex-shrink: 0;
   margin: 0 8px 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 .picker-header {
@@ -38,6 +40,9 @@
   flex-direction: column;
   gap: 6px;
   direction: rtl;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
 }
 
 .picker-section {
@@ -46,13 +51,36 @@
   gap: 1px;
 }
 
+.picker-section-header {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 3px 2px;
+  font-family: inherit;
+  gap: 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.picker-section-header:hover {
+  background: rgba(var(--surface0-ch), 0.5);
+}
+
 .picker-section-label {
   font-size: 9.5px;
   color: var(--overlay-0);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 1px;
-  padding: 0 2px;
+}
+
+.picker-section-chevron {
+  font-size: 8px;
+  color: var(--overlay-0);
+  flex-shrink: 0;
 }
 
 .picker-item {

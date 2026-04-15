@@ -54,6 +54,10 @@ interface AppState {
   // Welcome screen
   welcomeCompleted: boolean;
 
+  // Stage modal
+  seenStageModals: number[];
+  stageModalOpen: boolean;
+
   // Level complete screen
   pendingLevelComplete: boolean;  // 3-second delay before overlay appears
   showLevelComplete: boolean;
@@ -101,6 +105,9 @@ interface AppActions {
   jumpToMain: () => void;
 
   setWelcomeCompleted: () => void;
+  markStageModalSeen: (stage: Stage) => void;
+  openStageModal: () => void;
+  closeStageModal: () => void;
   triggerLevelComplete: () => void;
   dismissLevelComplete: (goNext: boolean) => void;
   completeModule: () => void;
@@ -134,6 +141,9 @@ export const useAppStore = create<AppState & AppActions>()(
     consoleVisible: false,
 
     welcomeCompleted: false,
+
+    seenStageModals: JSON.parse(localStorage.getItem('seenStageModals') ?? '[]') as number[],
+    stageModalOpen: false,
 
     pendingLevelComplete: false,
     showLevelComplete: false,
@@ -236,6 +246,13 @@ export const useAppStore = create<AppState & AppActions>()(
     }),
 
     setWelcomeCompleted: () => set((s) => { s.welcomeCompleted = true; }),
+
+    markStageModalSeen: (stage) => {
+      set((s) => { if (!s.seenStageModals.includes(stage)) s.seenStageModals.push(stage); s.stageModalOpen = false; });
+      localStorage.setItem('seenStageModals', JSON.stringify(useAppStore.getState().seenStageModals));
+    },
+    openStageModal: () => set((s) => { s.stageModalOpen = true; }),
+    closeStageModal: () => set((s) => { s.stageModalOpen = false; }),
 
     triggerLevelComplete: () =>
       set((s) => {

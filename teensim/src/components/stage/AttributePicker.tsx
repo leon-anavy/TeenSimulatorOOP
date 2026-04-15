@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import type { ClassSchema } from '../../parser/types';
@@ -245,6 +245,29 @@ function removeFromClass(code: string, snippet: string): string {
   return code;
 }
 
+// ─── PickerSection sub-component ─────────────────────────────────────────────
+
+function PickerSection({
+  id, label, collapsed, onToggle, children,
+}: {
+  id: string;
+  label: string;
+  collapsed: Set<string>;
+  onToggle: (id: string) => void;
+  children: ReactNode;
+}) {
+  const isCollapsed = collapsed.has(id);
+  return (
+    <div className="picker-section">
+      <button className="picker-section-header" onClick={() => onToggle(id)}>
+        <span className="picker-section-label">{label}</span>
+        <span className="picker-section-chevron">{isCollapsed ? '▶' : '▼'}</span>
+      </button>
+      {!isCollapsed && children}
+    </div>
+  );
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function AttributePicker() {
@@ -255,6 +278,15 @@ export function AttributePicker() {
   const [open, setOpen] = useState(true);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+
+  const toggleSection = useCallback((id: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
 
   function showToast(msg: string) {
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -365,51 +397,36 @@ export function AttributePicker() {
       {open && (
         <div className="picker-body">
           {/* Fields */}
-          <div className="picker-section">
-            <div className="picker-section-label">שדות — מה המתבגר מחזיק</div>
+          <PickerSection id="fields" label="שדות — מה המתבגר מחזיק" collapsed={collapsed} onToggle={toggleSection}>
             {FIELD_TEMPLATES.map((tpl) => {
               const checked = definedFieldNames.has(tpl.name);
               return (
                 <label key={tpl.name} className={`picker-item ${checked ? 'checked' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggleField(tpl)}
-                  />
+                  <input type="checkbox" checked={checked} onChange={() => toggleField(tpl)} />
                   <span className="picker-label">{tpl.labelHe}</span>
                   <code className="picker-code">private</code>
                 </label>
               );
             })}
-          </div>
+          </PickerSection>
 
           {/* Constructor — shown from stage 3 */}
           {currentStage >= 3 && (
-            <div className="picker-section">
-              <div className="picker-section-label">קונסטרקטור — ערכים התחלתיים</div>
+            <PickerSection id="constructor" label="קונסטרקטור — ערכים התחלתיים" collapsed={collapsed} onToggle={toggleSection}>
               <label className={`picker-item ${hasDefaultConstructor ? 'checked' : ''} ${hasParamConstructor ? 'unavailable' : ''}`}>
-                <input
-                  type="checkbox"
-                  checked={hasDefaultConstructor}
-                  onChange={toggleDefaultConstructor}
-                />
+                <input type="checkbox" checked={hasDefaultConstructor} onChange={toggleDefaultConstructor} />
                 <span className="picker-label">🔧 Teenager() — ברירת מחדל</span>
               </label>
               <label className={`picker-item ${hasParamConstructor ? 'checked' : ''} ${hasDefaultConstructor ? 'unavailable' : ''}`}>
-                <input
-                  type="checkbox"
-                  checked={hasParamConstructor}
-                  onChange={toggleParamConstructor}
-                />
+                <input type="checkbox" checked={hasParamConstructor} onChange={toggleParamConstructor} />
                 <span className="picker-label">🔧 Teenager(שדות...) — עם פרמטרים</span>
               </label>
-            </div>
+            </PickerSection>
           )}
 
           {/* Behavioral methods — shown from stage 2 */}
           {currentStage >= 2 && (
-            <div className="picker-section">
-              <div className="picker-section-label">פעולות פנימיות — מה המתבגר עושה</div>
+            <PickerSection id="methods" label="פעולות פנימיות — מה המתבגר עושה" collapsed={collapsed} onToggle={toggleSection}>
               {behavioralMethods.map((tpl) => {
                 const checked = definedMethodNames.has(tpl.name);
                 const missing = (METHOD_REQUIRES[tpl.name] ?? []).filter((f) => !definedFieldNames.has(f));
@@ -420,23 +437,18 @@ export function AttributePicker() {
                     className={`picker-item ${checked ? 'checked' : ''} ${unavailable ? 'unavailable' : ''}`}
                     title={unavailable ? `דרושים שדות: ${missing.map((f) => FIELD_LABEL[f] ?? f).join(', ')}` : ''}
                   >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleMethod(tpl)}
-                    />
+                    <input type="checkbox" checked={checked} onChange={() => toggleMethod(tpl)} />
                     <span className="picker-label">{tpl.labelHe}</span>
                     {unavailable && <span className="picker-missing">🔒</span>}
                   </label>
                 );
               })}
-            </div>
+            </PickerSection>
           )}
 
           {/* Getters & Setters — shown from stage 2 */}
           {currentStage >= 2 && (
-            <div className="picker-section">
-              <div className="picker-section-label">גטרים וסטרים — גישה מבוקרת לשדות</div>
+            <PickerSection id="accessors" label="גטרים וסטרים — גישה מבוקרת לשדות" collapsed={collapsed} onToggle={toggleSection}>
               {ACCESSOR_TEMPLATES.map((tpl) => {
                 const checked = definedMethodNames.has(tpl.methodName);
                 const fieldAvailable = definedFieldNames.has(tpl.fieldName);
@@ -446,34 +458,25 @@ export function AttributePicker() {
                     className={`picker-item ${checked ? 'checked' : ''} ${!fieldAvailable ? 'unavailable' : ''}`}
                     title={!fieldAvailable ? `דרוש שדה: ${tpl.fieldName}` : ''}
                   >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => fieldAvailable && toggleAccessor(tpl)}
-                    />
+                    <input type="checkbox" checked={checked} onChange={() => fieldAvailable && toggleAccessor(tpl)} />
                     <span className="picker-label">{tpl.labelHe}</span>
                     {!fieldAvailable && <span className="picker-missing">🔒</span>}
                   </label>
                 );
               })}
-            </div>
+            </PickerSection>
           )}
 
           {/* toString — shown from stage 4 */}
           {currentStage >= 4 && (
-            <div className="picker-section">
-              <div className="picker-section-label">ייצוג טקסטואלי</div>
+            <PickerSection id="tostring" label="ייצוג טקסטואלי" collapsed={collapsed} onToggle={toggleSection}>
               <label className={`picker-item ${hasToString ? 'checked' : ''}`}>
                 <input
                   type="checkbox"
                   checked={hasToString}
                   onChange={() => {
                     if (hasToString) {
-                      // Remove any toString — match regardless of body content
-                      const updated = teenagerCode.replace(
-                        /\n\s+public String toString\(\)\s*\{[^}]*\}/,
-                        ''
-                      );
+                      const updated = teenagerCode.replace(/\n\s+public String toString\(\)\s*\{[^}]*\}/, '');
                       setTeenagerCode(updated);
                       showToast('✗ toString() הוסרה מהשרטוט');
                     } else {
@@ -485,7 +488,7 @@ export function AttributePicker() {
                 />
                 <span className="picker-label">🔤 toString() — ייצוג טקסטואלי</span>
               </label>
-            </div>
+            </PickerSection>
           )}
         </div>
       )}

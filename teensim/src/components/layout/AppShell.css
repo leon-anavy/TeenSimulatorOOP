@@ -53,7 +53,7 @@
 .picker-visualizer-row .attribute-picker {
   width: 52%;
   flex-shrink: 0;
-  overflow-y: auto;
+  height: 100%;
   margin: 0 0 0 8px;
   border-radius: 10px 10px 0 0;
 }
