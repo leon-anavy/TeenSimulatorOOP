@@ -54,12 +54,98 @@ const METHOD_TEMPLATES: MethodTemplate[] = [
     labelHe: '📱 talkToFriends() — חברים',
     code: `    public void talkToFriends() {\n        this.happiness += 10;\n        this.phoneBattery -= 10;\n    }`,
   },
+];
+
+// ─── Getter / Setter templates ────────────────────────────────────────────────
+
+interface AccessorTemplate {
+  fieldName: string;
+  type: 'getter' | 'setter';
+  methodName: string;
+  code: string;
+  labelHe: string;
+}
+
+const ACCESSOR_TEMPLATES: AccessorTemplate[] = [
   {
-    name: 'toString',
-    labelHe: '🔤 toString() — ייצוג טקסטואלי',
-    code: `    public String toString() {\n        return "Teenager [energy=" + this.energy + ", happiness=" + this.happiness + "]";\n    }`,
+    fieldName: 'energy', type: 'getter', methodName: 'getEnergy',
+    labelHe: '↩ getEnergy() — קרא אנרגיה',
+    code: `    public int getEnergy() {\n        return this.energy;\n    }`,
+  },
+  {
+    fieldName: 'energy', type: 'setter', methodName: 'setEnergy',
+    labelHe: '✏ setEnergy(int) — הגדר אנרגיה',
+    code: `    public void setEnergy(int energy) {\n        this.energy = energy;\n    }`,
+  },
+  {
+    fieldName: 'happiness', type: 'getter', methodName: 'getHappiness',
+    labelHe: '↩ getHappiness() — קרא אושר',
+    code: `    public int getHappiness() {\n        return this.happiness;\n    }`,
+  },
+  {
+    fieldName: 'happiness', type: 'setter', methodName: 'setHappiness',
+    labelHe: '✏ setHappiness(int) — הגדר אושר',
+    code: `    public void setHappiness(int happiness) {\n        this.happiness = happiness;\n    }`,
+  },
+  {
+    fieldName: 'gpa', type: 'getter', methodName: 'getGpa',
+    labelHe: '↩ getGpa() — קרא ממוצע',
+    code: `    public double getGpa() {\n        return this.gpa;\n    }`,
+  },
+  {
+    fieldName: 'gpa', type: 'setter', methodName: 'setGpa',
+    labelHe: '✏ setGpa(double) — הגדר ממוצע',
+    code: `    public void setGpa(double gpa) {\n        this.gpa = gpa;\n    }`,
+  },
+  {
+    fieldName: 'phoneBattery', type: 'getter', methodName: 'getPhoneBattery',
+    labelHe: '↩ getPhoneBattery() — קרא סוללה',
+    code: `    public int getPhoneBattery() {\n        return this.phoneBattery;\n    }`,
+  },
+  {
+    fieldName: 'phoneBattery', type: 'setter', methodName: 'setPhoneBattery',
+    labelHe: '✏ setPhoneBattery(int) — הגדר סוללה',
+    code: `    public void setPhoneBattery(int phoneBattery) {\n        this.phoneBattery = phoneBattery;\n    }`,
+  },
+  {
+    fieldName: 'isHungry', type: 'getter', methodName: 'isHungry',
+    labelHe: '↩ isHungry() — בדוק רעב',
+    code: `    public boolean isHungry() {\n        return this.isHungry;\n    }`,
+  },
+  {
+    fieldName: 'isHungry', type: 'setter', methodName: 'setHungry',
+    labelHe: '✏ setHungry(boolean) — הגדר רעב',
+    code: `    public void setHungry(boolean hungry) {\n        this.isHungry = hungry;\n    }`,
   },
 ];
+
+const ACCESSOR_TOAST_ADD: Record<string, string> = {
+  getEnergy:       '↩ getEnergy() נוסף — מחזיר את ערך השדה energy',
+  setEnergy:       '✏ setEnergy() נוסף — מאפשר לשנות את energy מבחוץ',
+  getHappiness:    '↩ getHappiness() נוסף — מחזיר את ערך השדה happiness',
+  setHappiness:    '✏ setHappiness() נוסף — מאפשר לשנות את happiness מבחוץ',
+  getGpa:          '↩ getGpa() נוסף — מחזיר את ערך השדה gpa',
+  setGpa:          '✏ setGpa() נוסף — מאפשר לשנות את gpa מבחוץ',
+  getPhoneBattery: '↩ getPhoneBattery() נוסף — מחזיר את ערך השדה phoneBattery',
+  setPhoneBattery: '✏ setPhoneBattery() נוסף — מאפשר לשנות את phoneBattery מבחוץ',
+  isHungry:        '↩ isHungry() נוסף — מחזיר true/false לשדה isHungry',
+  setHungry:       '✏ setHungry() נוסף — מאפשר לשנות את isHungry מבחוץ',
+};
+
+// ─── toString builder ─────────────────────────────────────────────────────────
+
+function buildToStringCode(schema: ClassSchema | null): string {
+  const fields = schema?.fields ?? [];
+  if (fields.length === 0) {
+    return `    public String toString() {\n        return "Teenager []";\n    }`;
+  }
+  const parts = fields.map((f, i) => {
+    const prefix = i === 0 ? `"Teenager [${f.name}=" + this.${f.name}` : `", ${f.name}=" + this.${f.name}`;
+    return prefix;
+  });
+  const returnExpr = parts.join('\n                + ') + '\n                + "]"';
+  return `    public String toString() {\n        return ${returnExpr};\n    }`;
+}
 
 // ─── Constructor helper ───────────────────────────────────────────────────────
 
@@ -109,7 +195,7 @@ const FIELD_DEFAULTS: Record<string, string> = {
   isHungry: 'false',
 };
 
-function buildConstructorCode(schema: ClassSchema | null): string {
+function buildDefaultConstructorCode(schema: ClassSchema | null): string {
   const fields = schema?.fields.filter((f) => f.name in FIELD_DEFAULTS) ?? [];
   if (fields.length === 0) {
     return `    public Teenager() {\n        this.energy = 100;\n    }`;
@@ -118,8 +204,27 @@ function buildConstructorCode(schema: ClassSchema | null): string {
   return `    public Teenager() {\n${assignments}\n    }`;
 }
 
-function removeConstructor(code: string): string {
-  return code.replace(/\s*public Teenager\(\)\s*\{[^}]*\}/, '');
+function buildParamConstructorCode(schema: ClassSchema | null): string {
+  const fields = schema?.fields.filter((f) => f.name in FIELD_DEFAULTS) ?? [];
+  if (fields.length === 0) {
+    return `    public Teenager(int energy) {\n        this.energy = energy;\n    }`;
+  }
+  const PARAM_TYPES: Record<string, string> = {
+    energy: 'int', happiness: 'int', gpa: 'double', phoneBattery: 'int', isHungry: 'boolean',
+  };
+  const paramList = fields.map((f) => `${PARAM_TYPES[f.name] ?? 'int'} ${f.name}`).join(', ');
+  const assignments = fields.map((f) => `        this.${f.name} = ${f.name};`).join('\n');
+  return `    public Teenager(${paramList}) {\n${assignments}\n    }`;
+}
+
+function removeConstructorBySignature(code: string, hasParams: boolean): string {
+  if (hasParams) {
+    // Remove parameterized constructor: public Teenager(<params>) { ... }
+    return code.replace(/\s*public Teenager\([^)]+\)\s*\{[^}]*\}/, '');
+  } else {
+    // Remove default constructor: public Teenager() { ... }
+    return code.replace(/\s*public Teenager\(\)\s*\{[^}]*\}/, '');
+  }
 }
 
 // ─── Code insertion helpers ───────────────────────────────────────────────────
@@ -160,6 +265,9 @@ export function AttributePicker() {
   const definedFieldNames = new Set(classSchema?.fields.map((f) => f.name) ?? []);
   const definedMethodNames = new Set(classSchema?.methods.map((m) => m.name) ?? []);
   const hasConstructor = (classSchema?.constructor ?? null) !== null;
+  // Detect which constructor variant is present by inspecting params
+  const hasDefaultConstructor = hasConstructor && (classSchema?.constructor?.params.length ?? 0) === 0;
+  const hasParamConstructor = hasConstructor && (classSchema?.constructor?.params.length ?? 0) > 0;
 
   function toggleField(tpl: FieldTemplate) {
     if (definedFieldNames.has(tpl.name)) {
@@ -189,20 +297,48 @@ export function AttributePicker() {
     showToast(METHOD_TOAST_ADD[tpl.name] ?? `✓ ${tpl.name}() נוספה`);
   }
 
-  function toggleConstructor() {
-    if (hasConstructor) {
-      setTeenagerCode(removeConstructor(teenagerCode));
-      showToast('✗ קונסטרקטור הוסר מהשרטוט');
+  function toggleAccessor(tpl: AccessorTemplate) {
+    if (definedMethodNames.has(tpl.methodName)) {
+      setTeenagerCode(removeFromClass(teenagerCode, tpl.code));
+      showToast(`✗ ${tpl.methodName}() הוסר`);
     } else {
-      const snippet = buildConstructorCode(classSchema);
-      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + snippet + '\n'));
-      showToast('🔧 קונסטרקטור נוסף — ערכים התחלתיים מוגדרים לכל אובייקט חדש');
+      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + tpl.code + '\n'));
+      showToast(ACCESSOR_TOAST_ADD[tpl.methodName] ?? `✓ ${tpl.methodName}() נוסף`);
     }
   }
 
-  // Separate toString from the behavioral methods
-  const behavioralMethods = METHOD_TEMPLATES.filter((m) => m.name !== 'toString');
-  const toStringTemplate = METHOD_TEMPLATES.find((m) => m.name === 'toString')!;
+  function toggleDefaultConstructor() {
+    if (hasDefaultConstructor) {
+      setTeenagerCode(removeConstructorBySignature(teenagerCode, false));
+      showToast('✗ קונסטרקטור ברירת מחדל הוסר');
+    } else {
+      if (hasParamConstructor) {
+        showToast('⚠️ כבר יש קונסטרקטור עם פרמטרים — הסר אותו קודם');
+        return;
+      }
+      const snippet = buildDefaultConstructorCode(classSchema);
+      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + snippet + '\n'));
+      showToast('🔧 קונסטרקטור ברירת מחדל נוסף — ערכים קבועים לכל אובייקט חדש');
+    }
+  }
+
+  function toggleParamConstructor() {
+    if (hasParamConstructor) {
+      setTeenagerCode(removeConstructorBySignature(teenagerCode, true));
+      showToast('✗ קונסטרקטור עם פרמטרים הוסר');
+    } else {
+      if (hasDefaultConstructor) {
+        showToast('⚠️ כבר יש קונסטרקטור ברירת מחדל — הסר אותו קודם');
+        return;
+      }
+      const snippet = buildParamConstructorCode(classSchema);
+      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + snippet + '\n'));
+      showToast('🔧 קונסטרקטור עם פרמטרים נוסף — ניתן להעביר ערכים בעת יצירת אובייקט');
+    }
+  }
+
+  const behavioralMethods = METHOD_TEMPLATES;
+  const hasToString = definedMethodNames.has('toString');;
 
   return (
     <>
@@ -251,13 +387,21 @@ export function AttributePicker() {
           {currentStage >= 3 && (
             <div className="picker-section">
               <div className="picker-section-label">קונסטרקטור — ערכים התחלתיים</div>
-              <label className={`picker-item ${hasConstructor ? 'checked' : ''}`}>
+              <label className={`picker-item ${hasDefaultConstructor ? 'checked' : ''} ${hasParamConstructor ? 'unavailable' : ''}`}>
                 <input
                   type="checkbox"
-                  checked={hasConstructor}
-                  onChange={toggleConstructor}
+                  checked={hasDefaultConstructor}
+                  onChange={toggleDefaultConstructor}
                 />
-                <span className="picker-label">🔧 קונסטרקטור Teenager()</span>
+                <span className="picker-label">🔧 Teenager() — ברירת מחדל</span>
+              </label>
+              <label className={`picker-item ${hasParamConstructor ? 'checked' : ''} ${hasDefaultConstructor ? 'unavailable' : ''}`}>
+                <input
+                  type="checkbox"
+                  checked={hasParamConstructor}
+                  onChange={toggleParamConstructor}
+                />
+                <span className="picker-label">🔧 Teenager(שדות...) — עם פרמטרים</span>
               </label>
             </div>
           )}
@@ -289,29 +433,58 @@ export function AttributePicker() {
             </div>
           )}
 
-          {/* toString — shown from stage 4 */}
-          {currentStage >= 4 && (
+          {/* Getters & Setters — shown from stage 2 */}
+          {currentStage >= 2 && (
             <div className="picker-section">
-              <div className="picker-section-label">ייצוג טקסטואלי</div>
-              {(() => {
-                const checked = definedMethodNames.has(toStringTemplate.name);
-                const missing = (METHOD_REQUIRES[toStringTemplate.name] ?? []).filter((f) => !definedFieldNames.has(f));
-                const unavailable = !checked && missing.length > 0;
+              <div className="picker-section-label">גטרים וסטרים — גישה מבוקרת לשדות</div>
+              {ACCESSOR_TEMPLATES.map((tpl) => {
+                const checked = definedMethodNames.has(tpl.methodName);
+                const fieldAvailable = definedFieldNames.has(tpl.fieldName);
                 return (
                   <label
-                    className={`picker-item ${checked ? 'checked' : ''} ${unavailable ? 'unavailable' : ''}`}
-                    title={unavailable ? `דרושים שדות: ${missing.map((f) => FIELD_LABEL[f] ?? f).join(', ')}` : ''}
+                    key={tpl.methodName}
+                    className={`picker-item ${checked ? 'checked' : ''} ${!fieldAvailable ? 'unavailable' : ''}`}
+                    title={!fieldAvailable ? `דרוש שדה: ${tpl.fieldName}` : ''}
                   >
                     <input
                       type="checkbox"
                       checked={checked}
-                      onChange={() => toggleMethod(toStringTemplate)}
+                      onChange={() => fieldAvailable && toggleAccessor(tpl)}
                     />
-                    <span className="picker-label">{toStringTemplate.labelHe}</span>
-                    {unavailable && <span className="picker-missing">🔒</span>}
+                    <span className="picker-label">{tpl.labelHe}</span>
+                    {!fieldAvailable && <span className="picker-missing">🔒</span>}
                   </label>
                 );
-              })()}
+              })}
+            </div>
+          )}
+
+          {/* toString — shown from stage 4 */}
+          {currentStage >= 4 && (
+            <div className="picker-section">
+              <div className="picker-section-label">ייצוג טקסטואלי</div>
+              <label className={`picker-item ${hasToString ? 'checked' : ''}`}>
+                <input
+                  type="checkbox"
+                  checked={hasToString}
+                  onChange={() => {
+                    if (hasToString) {
+                      // Remove any toString — match regardless of body content
+                      const updated = teenagerCode.replace(
+                        /\n\s+public String toString\(\)\s*\{[^}]*\}/,
+                        ''
+                      );
+                      setTeenagerCode(updated);
+                      showToast('✗ toString() הוסרה מהשרטוט');
+                    } else {
+                      const snippet = buildToStringCode(classSchema);
+                      setTeenagerCode(insertIntoClass(teenagerCode, '\n' + snippet + '\n'));
+                      showToast('🔤 toString() נוספה — System.out.println(t1) יעבוד אוטומטית!');
+                    }
+                  }}
+                />
+                <span className="picker-label">🔤 toString() — ייצוג טקסטואלי</span>
+              </label>
             </div>
           )}
         </div>

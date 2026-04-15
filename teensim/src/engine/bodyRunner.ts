@@ -10,7 +10,7 @@ export function runBodyStatement(
   params: Record<string, unknown> = {}
 ): void {
   if (stmt.kind === 'ASSIGN') {
-    if (stmt.field in state) state[stmt.field] = stmt.value;
+    if (stmt.field in state) state[stmt.field] = resolveValue(stmt.value, params);
   } else if (stmt.kind === 'COMPOUND_ASSIGN') {
     if (stmt.field in state) {
       const cur = state[stmt.field] as number;

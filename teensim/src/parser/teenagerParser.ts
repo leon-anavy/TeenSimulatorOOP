@@ -154,9 +154,12 @@ function parseBodyStatements(cursor: TokenCursor, fieldNames: Set<string>): Body
     if (cursor.at('ASSIGN')) {
       cursor.consume();
       const val = parseLiteral(cursor);
+      // Also accept an identifier as a param reference (e.g. setter body: this.energy = energy)
+      const finalVal: number | boolean | string | null =
+        val !== null ? val : (cursor.at('IDENTIFIER') ? cursor.consume().value : null);
       cursor.expect('SEMICOLON');
-      if (target && val !== null) {
-        stmts.push({ kind: 'ASSIGN', field: target, value: val });
+      if (target && finalVal !== null) {
+        stmts.push({ kind: 'ASSIGN', field: target, value: finalVal });
       }
       continue;
     }
