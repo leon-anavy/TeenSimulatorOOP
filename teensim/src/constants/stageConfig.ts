@@ -36,7 +36,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
       'שדות מגדירים מה המתבגר יודע — אבל מה הוא יכול לעשות?\n\n' +
       'פעולה פנימית היא פיסת קוד שמשנה את מצב האובייקט. לדוגמה, study() מפחיתה אנרגיה ומעלה ממוצע — כמו בחיים האמיתיים!\n\n' +
       'בשלב הזה נוסיף לפחות שתי פעולות פנימיות למחלקה שלנו.',
-    modalCode: 'public void study() {\n    energy -= 15;\n    gpa += 2.0;\n}',
+    modalCode: 'public void study() {\n    this.energy -= 15;\n    this.gpa += 2.0;\n}',
     modalButtonText: '!הבנתי, בואו נוסיף פעולות',
   },
   3: {
@@ -49,7 +49,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
       'כשיוצרים אובייקט חדש עם new Teenager(), ג\'אווה צריכה לדעת: מה הערכים ההתחלתיים?\n\n' +
       'זה תפקיד הקונסטרקטור — פעולה מיוחדת שנקראת אוטומטית בעת יצירת אובייקט.\n\n' +
       'בלעדיו, כל שדה מקבל ערך ברירת מחדל. עם קונסטרקטור, אתה שולט על נקודת ההתחלה.',
-    modalCode: 'public Teenager() {\n    energy = 100;\n    happiness = 80;\n}',
+    modalCode: 'public Teenager() {\n    this.energy = 100;\n    this.happiness = 80;\n}',
     modalButtonText: '!הבנתי, בואו נגדיר התחלה',
   },
   4: {
@@ -62,7 +62,7 @@ export const STAGE_CONFIGS: Record<Stage, StageConfig> = {
       'מה קורה כשכותבים System.out.println(t1)? ג\'אווה לא יודעת "להדפיס מתבגר" — אלא אם כן נלמד אותה.\n\n' +
       'הפעולה toString() היא אמנה בין האובייקט לשאר ג\'אווה: "כשמישהו ירצה להמיר אותי למחרוזת, כך אני נראה."\n\n' +
       'ברגע שנגדיר אותה, System.out.println(t1) יעבוד אוטומטית!',
-    modalCode: 'public String toString() {\n    return "energy=" + energy;\n}',
+    modalCode: 'public String toString() {\n    return "energy=" + this.energy;\n}',
     modalButtonText: '!הבנתי, בואו נגדיר ייצוג',
   },
   5: {

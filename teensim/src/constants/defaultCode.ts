@@ -6,40 +6,40 @@ export const FULL_TEENAGER_CODE = `public class Teenager {
     private boolean isHungry;
 
     public Teenager() {
-        energy = 100;
-        happiness = 80;
-        gpa = 90.0;
-        phoneBattery = 50;
-        isHungry = false;
+        this.energy = 100;
+        this.happiness = 80;
+        this.gpa = 90.0;
+        this.phoneBattery = 50;
+        this.isHungry = false;
     }
 
     public void study() {
-        energy -= 15;
-        gpa += 2.0;
+        this.energy -= 15;
+        this.gpa += 2.0;
     }
 
     public void sleep() {
-        energy = 100;
-        happiness += 5;
+        this.energy = 100;
+        this.happiness += 5;
     }
 
     public void eat() {
-        isHungry = false;
-        energy += 20;
+        this.isHungry = false;
+        this.energy += 20;
     }
 
     public void playGames() {
-        happiness += 25;
-        energy -= 20;
+        this.happiness += 25;
+        this.energy -= 20;
     }
 
     public void talkToFriends() {
-        happiness += 10;
-        phoneBattery -= 10;
+        this.happiness += 10;
+        this.phoneBattery -= 10;
     }
 
     public String toString() {
-        return "Teenager [energy=" + energy + ", happiness=" + happiness + "]";
+        return "Teenager [energy=" + this.energy + ", happiness=" + this.happiness + "]";
     }
 }
 `;

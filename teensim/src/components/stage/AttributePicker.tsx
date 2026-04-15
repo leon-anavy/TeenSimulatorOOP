@@ -32,32 +32,32 @@ const METHOD_TEMPLATES: MethodTemplate[] = [
   {
     name: 'study',
     labelHe: '📖 study() — לימוד',
-    code: `    public void study() {\n        energy -= 15;\n        gpa += 2.0;\n    }`,
+    code: `    public void study() {\n        this.energy -= 15;\n        this.gpa += 2.0;\n    }`,
   },
   {
     name: 'sleep',
     labelHe: '😴 sleep() — שינה',
-    code: `    public void sleep() {\n        energy = 100;\n        happiness += 5;\n    }`,
+    code: `    public void sleep() {\n        this.energy = 100;\n        this.happiness += 5;\n    }`,
   },
   {
     name: 'eat',
     labelHe: '🍕 eat() — אכילה',
-    code: `    public void eat() {\n        isHungry = false;\n        energy += 20;\n    }`,
+    code: `    public void eat() {\n        this.isHungry = false;\n        this.energy += 20;\n    }`,
   },
   {
     name: 'playGames',
     labelHe: '🎮 playGames() — משחקים',
-    code: `    public void playGames() {\n        happiness += 25;\n        energy -= 20;\n    }`,
+    code: `    public void playGames() {\n        this.happiness += 25;\n        this.energy -= 20;\n    }`,
   },
   {
     name: 'talkToFriends',
     labelHe: '📱 talkToFriends() — חברים',
-    code: `    public void talkToFriends() {\n        happiness += 10;\n        phoneBattery -= 10;\n    }`,
+    code: `    public void talkToFriends() {\n        this.happiness += 10;\n        this.phoneBattery -= 10;\n    }`,
   },
   {
     name: 'toString',
     labelHe: '🔤 toString() — ייצוג טקסטואלי',
-    code: `    public String toString() {\n        return "Teenager [energy=" + energy + ", happiness=" + happiness + "]";\n    }`,
+    code: `    public String toString() {\n        return "Teenager [energy=" + this.energy + ", happiness=" + this.happiness + "]";\n    }`,
   },
 ];
 
@@ -112,9 +112,9 @@ const FIELD_DEFAULTS: Record<string, string> = {
 function buildConstructorCode(schema: ClassSchema | null): string {
   const fields = schema?.fields.filter((f) => f.name in FIELD_DEFAULTS) ?? [];
   if (fields.length === 0) {
-    return `    public Teenager() {\n        energy = 100;\n    }`;
+    return `    public Teenager() {\n        this.energy = 100;\n    }`;
   }
-  const assignments = fields.map((f) => `        ${f.name} = ${FIELD_DEFAULTS[f.name]};`).join('\n');
+  const assignments = fields.map((f) => `        this.${f.name} = ${FIELD_DEFAULTS[f.name]};`).join('\n');
   return `    public Teenager() {\n${assignments}\n    }`;
 }
 
