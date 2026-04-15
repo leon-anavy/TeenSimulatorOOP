@@ -10,7 +10,7 @@
 .bedroom-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #1a1a3e 0%, #2d1b69 40%, #4a3590 100%);
+  background: var(--bedroom-gradient);
 }
 
 .bedroom-window {
@@ -37,7 +37,7 @@
   right: 0;
   height: 30%;
   background: linear-gradient(180deg, transparent, rgba(70, 50, 120, 0.6));
-  border-top: 2px solid rgba(137, 180, 250, 0.15);
+  border-top: 2px solid rgba(var(--blue-ch), 0.15);
 }
 
 .instances-row {
@@ -57,9 +57,9 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background: rgba(30, 30, 46, 0.75);
+  background: rgba(var(--base-ch), 0.75);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(137, 180, 250, 0.2);
+  border: 1px solid rgba(var(--blue-ch), 0.2);
   border-radius: 16px;
   padding: 12px;
   min-width: 180px;
@@ -73,8 +73,8 @@
 .instance-label code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  color: #89b4fa;
-  background: rgba(137, 180, 250, 0.1);
+  color: var(--blue);
+  background: rgba(var(--blue-ch), 0.1);
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -90,7 +90,7 @@
 
 .empty-world {
   text-align: center;
-  color: #585b70;
+  color: var(--overlay-1);
   font-size: 14px;
   display: flex;
   flex-direction: column;
@@ -99,10 +99,10 @@
 }
 
 .empty-world code {
-  background: #313244;
+  background: var(--surface-0);
   padding: 3px 8px;
   border-radius: 4px;
-  color: #89b4fa;
+  color: var(--blue);
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
 }

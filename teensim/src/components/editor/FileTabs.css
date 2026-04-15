@@ -1,7 +1,7 @@
 .file-tabs {
   display: flex;
-  background: #1e1e2e;
-  border-bottom: 1px solid #313244;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--surface-0);
   flex-shrink: 0;
 }
 
@@ -9,7 +9,7 @@
   padding: 10px 20px;
   background: transparent;
   border: none;
-  color: #cdd6f4;
+  color: var(--text);
   cursor: pointer;
   font-size: 13px;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -22,17 +22,17 @@
 }
 
 .tab:hover:not(.locked) {
-  background: #313244;
+  background: var(--surface-0);
 }
 
 .tab.active {
-  color: #89b4fa;
-  border-bottom-color: #89b4fa;
-  background: #181825;
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: var(--bg-mantle);
 }
 
 .tab.locked {
-  color: #585b70;
+  color: var(--overlay-1);
   cursor: not-allowed;
 }
 
@@ -46,10 +46,10 @@
 
 @keyframes blink-tab {
   0%, 100% { background: transparent; }
-  50% { background: #45475a; }
+  50% { background: var(--surface-1); }
 }
 
 .tab.blinking {
   animation: blink-tab 0.8s ease-in-out infinite;
-  color: #a6e3a1;
+  color: var(--green);
 }

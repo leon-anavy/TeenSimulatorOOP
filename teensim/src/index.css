@@ -1,3 +1,79 @@
+/* ─── Theme Variables ──────────────────────────────────────────────────────── */
+
+:root {
+  /* Solid colours — Catppuccin Mocha (dark) */
+  --bg-base:    #1e1e2e;
+  --bg-mantle:  #181825;
+  --bg-crust:   #11111b;
+  --surface-0:  #313244;
+  --surface-1:  #45475a;
+  --overlay-0:  #6c7086;
+  --overlay-1:  #585b70;
+  --subtext:    #a6adc8;
+  --text:       #cdd6f4;
+  --blue:       #89b4fa;
+  --green:      #a6e3a1;
+  --red:        #f38ba8;
+  --yellow:     #f9e2af;
+  --mauve:      #cba6f7;
+  --teal:       #89dceb;
+  --peach:      #fab387;
+  --blue-hover: #b4d0ff;
+  --green-hover:#c4efbf;
+
+  /* RGB channels for rgba() usage */
+  --blue-ch:    137, 180, 250;
+  --green-ch:   166, 227, 161;
+  --red-ch:     243, 139, 168;
+  --yellow-ch:  249, 226, 175;
+  --mauve-ch:   203, 166, 247;
+  --base-ch:    30, 30, 46;
+  --surface0-ch:49, 50, 68;
+  --surface1-ch:69, 71, 90;
+  --bg-crust-ch:17, 17, 27;
+
+  /* Special backgrounds */
+  --blueprint-bg: #0d1117;
+  --bedroom-gradient: linear-gradient(180deg, #1a1a3e 0%, #2d1b69 40%, #4a3590 100%);
+}
+
+html.light {
+  /* Solid colours — Catppuccin Latte (light) */
+  --bg-base:    #eff1f5;
+  --bg-mantle:  #e6e9ef;
+  --bg-crust:   #dce0e8;
+  --surface-0:  #ccd0da;
+  --surface-1:  #acb0be;
+  --overlay-0:  #8c8fa1;
+  --overlay-1:  #9ca0b0;
+  --subtext:    #7c7f93;
+  --text:       #4c4f69;
+  --blue:       #1e66f5;
+  --green:      #40a02b;
+  --red:        #d20f39;
+  --yellow:     #8c6a00;
+  --mauve:      #8839ef;
+  --teal:       #179299;
+  --peach:      #fe640b;
+  --blue-hover: #4d7ef7;
+  --green-hover:#56c23f;
+
+  --blue-ch:    30, 102, 245;
+  --green-ch:   64, 160, 43;
+  --red-ch:     210, 15, 57;
+  --yellow-ch:  223, 142, 29;
+  --mauve-ch:   136, 57, 239;
+  --base-ch:    239, 241, 245;
+  --surface0-ch:204, 208, 218;
+  --surface1-ch:172, 176, 190;
+  --bg-crust-ch:220, 224, 232;
+
+  --blueprint-bg: #e8eef8;
+  --bedroom-gradient: linear-gradient(180deg, #c8d8f8 0%, #dde8ff 40%, #eef2ff 100%);
+}
+
+/* ─── Reset & Base ─────────────────────────────────────────────────────────── */
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -9,8 +85,8 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #1e1e2e;
-  color: #cdd6f4;
+  background: var(--bg-base);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -26,21 +102,21 @@ html, body, #root {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #181825;
+  background: var(--bg-mantle);
 }
 ::-webkit-scrollbar-thumb {
-  background: #45475a;
+  background: var(--surface-1);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #585b70;
+  background: var(--overlay-1);
 }
 
 /* Global app title bar */
 .app-header {
   height: 40px;
-  background: #11111b;
-  border-bottom: 1px solid #313244;
+  background: var(--bg-crust);
+  border-bottom: 1px solid var(--surface-0);
   display: flex;
   align-items: center;
   padding: 0 16px;
@@ -67,7 +143,7 @@ html, body, #root {
 .app-title {
   font-size: 14px;
   font-weight: 700;
-  color: #89b4fa;
+  color: var(--blue);
   letter-spacing: 0.5px;
 }
 
@@ -83,9 +159,9 @@ html, body, #root {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #313244;
-  border: 1.5px solid #45475a;
-  color: #585b70;
+  background: var(--surface-0);
+  border: 1.5px solid var(--surface-1);
+  color: var(--overlay-1);
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
@@ -97,25 +173,25 @@ html, body, #root {
 }
 
 .stage-dot-btn:hover:not(:disabled):not(.viewing) {
-  background: #45475a;
-  color: #cdd6f4;
+  background: var(--surface-1);
+  color: var(--text);
 }
 
 .stage-dot-btn.active {
-  background: #89b4fa;
-  border-color: #89b4fa;
-  color: #1e1e2e;
-  box-shadow: 0 0 8px rgba(137, 180, 250, 0.5);
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--bg-base);
+  box-shadow: 0 0 8px rgba(var(--blue-ch), 0.5);
 }
 
 .stage-dot-btn.done {
-  background: #a6e3a1;
-  border-color: #a6e3a1;
-  color: #1e1e2e;
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--bg-base);
 }
 
 .stage-dot-btn.viewing:not(.active) {
-  outline: 2px solid #f9e2af;
+  outline: 2px solid var(--yellow);
   outline-offset: 2px;
 }
 
@@ -127,8 +203,8 @@ html, body, #root {
 .quick-start-btn {
   margin-left: 12px;
   background: transparent;
-  border: 1px solid #f9e2af44;
-  color: #f9e2af;
+  border: 1px solid rgba(var(--yellow-ch), 0.27);
+  color: var(--yellow);
   border-radius: 5px;
   padding: 3px 10px;
   font-size: 11px;
@@ -140,6 +216,27 @@ html, body, #root {
 }
 
 .quick-start-btn:hover {
-  background: rgba(249, 226, 175, 0.1);
-  border-color: #f9e2af;
+  background: rgba(var(--yellow-ch), 0.1);
+  border-color: var(--yellow);
+}
+
+/* Theme toggle button */
+.theme-toggle-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--surface-1);
+  color: var(--subtext);
+  border-radius: 5px;
+  padding: 3px 9px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  line-height: 1;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--surface-0);
+  border-color: var(--overlay-0);
+  color: var(--text);
 }

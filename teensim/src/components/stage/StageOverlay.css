@@ -4,22 +4,22 @@
 }
 
 .stage-card {
-  background: rgba(30, 30, 46, 0.95);
-  border: 1px solid #45475a;
+  background: rgba(var(--base-ch), 0.95);
+  border: 1px solid var(--surface-1);
   border-radius: 10px;
   padding: 12px 14px;
   direction: rtl;
 }
 
 .stage-card.reviewing {
-  border-color: #f9e2af;
-  background: rgba(249, 226, 175, 0.05);
+  border-color: var(--yellow);
+  background: rgba(var(--yellow-ch), 0.05);
 }
 
 .reviewing-badge {
   display: inline-block;
-  background: #f9e2af;
-  color: #1e1e2e;
+  background: var(--yellow);
+  color: var(--bg-base);
   font-size: 10px;
   font-weight: 700;
   padding: 2px 8px;
@@ -29,8 +29,8 @@
 
 .stage-badge {
   display: inline-block;
-  background: #89b4fa;
-  color: #1e1e2e;
+  background: var(--blue);
+  color: var(--bg-base);
   font-size: 10px;
   font-weight: 700;
   padding: 2px 8px;
@@ -42,13 +42,13 @@
 .stage-title {
   font-size: 14px;
   font-weight: 700;
-  color: #cdd6f4;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
 .stage-instruction {
   font-size: 12px;
-  color: #a6adc8;
+  color: var(--subtext);
   line-height: 1.5;
   white-space: pre-line;
   margin-bottom: 8px;
@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #181825;
+  background: var(--bg-mantle);
   border-radius: 6px;
   padding: 6px 10px;
 }
@@ -71,21 +71,21 @@
 .stage-hint code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #89b4fa;
+  color: var(--blue);
   direction: ltr;
 }
 
 /* Why private section */
 .why-private-section {
   margin-top: 10px;
-  border-top: 1px solid #313244;
+  border-top: 1px solid var(--surface-0);
   padding-top: 8px;
 }
 
 .why-private-toggle {
   background: transparent;
-  border: 1px solid #45475a;
-  color: #89b4fa;
+  border: 1px solid var(--surface-1);
+  color: var(--blue);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 11px;
@@ -95,7 +95,7 @@
 }
 
 .why-private-toggle:hover {
-  background: #313244;
+  background: var(--surface-0);
 }
 
 .why-private-body {
@@ -111,7 +111,7 @@
   align-items: flex-start;
   gap: 8px;
   font-size: 12px;
-  color: #a6adc8;
+  color: var(--subtext);
   line-height: 1.4;
 }
 
@@ -125,20 +125,20 @@
 }
 
 .access-tag.private {
-  background: rgba(203, 166, 247, 0.15);
-  color: #cba6f7;
+  background: rgba(var(--mauve-ch), 0.15);
+  color: var(--mauve);
 }
 
 .access-tag.public {
-  background: rgba(243, 139, 168, 0.15);
-  color: #f38ba8;
+  background: rgba(var(--red-ch), 0.15);
+  color: var(--red);
 }
 
 .why-note {
   font-size: 11px;
-  color: #f9e2af;
-  background: rgba(249, 226, 175, 0.06);
-  border: 1px solid rgba(249, 226, 175, 0.2);
+  color: var(--yellow);
+  background: rgba(var(--yellow-ch), 0.06);
+  border: 1px solid rgba(var(--yellow-ch), 0.2);
   border-radius: 6px;
   padding: 6px 8px;
   line-height: 1.5;

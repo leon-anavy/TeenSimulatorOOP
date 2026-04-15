@@ -11,8 +11,8 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: #1e1e2e;
-  color: #cdd6f4;
+  background: var(--bg-base);
+  color: var(--text);
 }
 
 .left-pane,
@@ -25,8 +25,8 @@
   flex-direction: column;
   width: 50%;
   min-width: 400px;
-  border-right: 1px solid #313244;
-  background: #181825;
+  border-right: 1px solid var(--surface-0);
+  background: var(--bg-mantle);
 }
 
 .editor-area {
@@ -74,14 +74,14 @@
   align-items: center;
   justify-content: flex-end;
   padding: 4px 10px;
-  background: #181825;
-  border-bottom: 1px solid #313244;
+  background: var(--bg-mantle);
+  border-bottom: 1px solid var(--surface-0);
   flex-shrink: 0;
 }
 
 .editor-lock-btn {
   background: transparent;
-  border: 1px solid #45475a;
+  border: 1px solid var(--surface-1);
   border-radius: 6px;
   padding: 3px 12px;
   font-size: 12px;
@@ -92,29 +92,29 @@
 }
 
 .editor-lock-btn.locked {
-  color: #f38ba8;
-  border-color: rgba(243, 139, 168, 0.4);
+  color: var(--red);
+  border-color: rgba(var(--red-ch), 0.4);
 }
 
 .editor-lock-btn.locked:hover {
-  background: rgba(243, 139, 168, 0.08);
-  border-color: #f38ba8;
+  background: rgba(var(--red-ch), 0.08);
+  border-color: var(--red);
 }
 
 .editor-lock-btn.unlocked {
-  color: #a6e3a1;
-  border-color: rgba(166, 227, 161, 0.4);
+  color: var(--green);
+  border-color: rgba(var(--green-ch), 0.4);
 }
 
 .editor-lock-btn.unlocked:hover {
-  background: rgba(166, 227, 161, 0.08);
-  border-color: #a6e3a1;
+  background: rgba(var(--green-ch), 0.08);
+  border-color: var(--green);
 }
 
 .editor-download-btn {
   background: transparent;
-  border: 1px solid #45475a;
-  color: #a6adc8;
+  border: 1px solid var(--surface-1);
+  color: var(--subtext);
   border-radius: 6px;
   padding: 3px 12px;
   font-size: 12px;
@@ -125,46 +125,46 @@
 }
 
 .editor-download-btn:hover {
-  border-color: #89b4fa;
-  color: #89b4fa;
-  background: rgba(137, 180, 250, 0.08);
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(var(--blue-ch), 0.08);
 }
 
 /* App footer */
 .app-footer {
   height: 26px;
   flex-shrink: 0;
-  background: #11111b;
-  border-top: 1px solid #1e1e2e;
+  background: var(--bg-crust);
+  border-top: 1px solid var(--bg-base);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 14px;
   font-size: 11px;
-  color: #45475a;
+  color: var(--surface-1);
   gap: 12px;
 }
 
 .app-footer a {
-  color: #585b70;
+  color: var(--overlay-1);
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .app-footer a:hover {
-  color: #89b4fa;
+  color: var(--blue);
 }
 
 .footer-github {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #585b70;
+  color: var(--overlay-1);
   text-decoration: none;
   font-size: 11px;
   transition: color 0.15s;
 }
 
 .footer-github:hover {
-  color: #89b4fa;
+  color: var(--blue);
 }

@@ -1,6 +1,6 @@
 .attribute-picker {
-  background: #1e1e2e;
-  border: 1px solid #313244;
+  background: var(--bg-base);
+  border: 1px solid var(--surface-0);
   border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
@@ -9,9 +9,9 @@
 
 .picker-header {
   width: 100%;
-  background: #181825;
+  background: var(--bg-mantle);
   border: none;
-  color: #cdd6f4;
+  color: var(--text);
   padding: 8px 12px;
   display: flex;
   justify-content: space-between;
@@ -24,12 +24,12 @@
 }
 
 .picker-header:hover {
-  background: #313244;
+  background: var(--surface-0);
 }
 
 .picker-toggle {
   font-size: 10px;
-  color: #6c7086;
+  color: var(--overlay-0);
 }
 
 .picker-body {
@@ -48,7 +48,7 @@
 
 .picker-section-label {
   font-size: 9.5px;
-  color: #6c7086;
+  color: var(--overlay-0);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 1px;
@@ -68,12 +68,12 @@
 }
 
 .picker-item:hover {
-  background: #313244;
+  background: var(--surface-0);
 }
 
 .picker-item.checked {
-  background: rgba(166, 227, 161, 0.08);
-  border-color: rgba(166, 227, 161, 0.25);
+  background: rgba(var(--green-ch), 0.08);
+  border-color: rgba(var(--green-ch), 0.25);
 }
 
 .picker-item.unavailable {
@@ -86,7 +86,7 @@
 }
 
 .picker-item input[type="checkbox"] {
-  accent-color: #a6e3a1;
+  accent-color: var(--green);
   width: 14px;
   height: 14px;
   cursor: pointer;
@@ -96,7 +96,7 @@
 .picker-label {
   flex: 1;
   font-size: 11px;
-  color: #cdd6f4;
+  color: var(--text);
   line-height: 1.3;
 }
 
@@ -106,13 +106,13 @@
   bottom: 56px; /* above the footer */
   left: 16px;
   max-width: 360px;
-  background: #313244;
-  border: 1px solid #45475a;
-  border-left: 3px solid #a6e3a1;
+  background: var(--surface-0);
+  border: 1px solid var(--surface-1);
+  border-left: 3px solid var(--green);
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 12.5px;
-  color: #cdd6f4;
+  color: var(--text);
   line-height: 1.4;
   z-index: 500;
   pointer-events: none;
@@ -122,8 +122,8 @@
 .picker-code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #cba6f7;
-  background: rgba(203, 166, 247, 0.1);
+  color: var(--mauve);
+  background: rgba(var(--mauve-ch), 0.1);
   padding: 1px 5px;
   border-radius: 3px;
 }

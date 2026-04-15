@@ -35,6 +35,7 @@ export function CodeEditor() {
   const viewingStage = useAppStore((s) => s.viewingStage);
   const currentStage = useAppStore((s) => s.currentStage);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
+  const lightMode = useAppStore((s) => s.lightMode);
 
   const value = activeFile === 'Teenager.java' ? teenagerCode : mainCode;
   const onChange = activeFile === 'Teenager.java' ? setTeenagerCode : setMainCode;
@@ -83,7 +84,7 @@ export function CodeEditor() {
         value={value}
         onChange={(v) => onChange(v ?? '')}
         beforeMount={handleEditorWillMount}
-        theme="vs-dark"
+        theme={lightMode ? 'vs' : 'vs-dark'}
         options={{
           fontSize: 14,
           fontFamily: "'JetBrains Mono', 'Fira Code', monospace",

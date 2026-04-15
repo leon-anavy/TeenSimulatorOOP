@@ -10,12 +10,12 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  background: rgba(30, 30, 46, 0.85);
-  border: 1px solid #45475a;
+  background: rgba(var(--base-ch), 0.85);
+  border: 1px solid var(--surface-1);
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 11px;
-  color: #cdd6f4;
+  color: var(--text);
   pointer-events: none;
   white-space: nowrap;
 }

@@ -50,8 +50,8 @@
   bottom: 30%;
   font-size: 22px;
   font-weight: 700;
-  color: #89b4fa;
-  text-shadow: 0 0 8px #89b4fa;
+  color: var(--blue);
+  text-shadow: 0 0 8px var(--blue);
 }
 
 /* Eat */
@@ -66,7 +66,7 @@
 
 .energy-pulse {
   font-size: 14px;
-  color: #a6e3a1;
+  color: var(--green);
   font-weight: 700;
 }
 
@@ -83,7 +83,7 @@
 .screen-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(137, 220, 235, 0.25) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(var(--teal-ch, 137, 220, 235), 0.25) 0%, transparent 70%);
   border-radius: 12px;
 }
 

@@ -2,14 +2,14 @@
   display: flex;
   gap: 8px;
   padding: 8px 12px;
-  background: #181825;
-  border-top: 1px solid #313244;
+  background: var(--bg-mantle);
+  border-top: 1px solid var(--surface-0);
   flex-shrink: 0;
 }
 
 .run-button {
-  background: #a6e3a1;
-  color: #1e1e2e;
+  background: var(--green);
+  color: var(--bg-base);
   border: none;
   border-radius: 6px;
   padding: 8px 20px;
@@ -21,7 +21,7 @@
 }
 
 .run-button:hover:not(:disabled) {
-  background: #94e2d5;
+  background: var(--green-hover);
   transform: translateY(-1px);
 }
 
@@ -30,14 +30,14 @@
 }
 
 .run-button:disabled {
-  background: #45475a;
-  color: #6c7086;
+  background: var(--surface-1);
+  color: var(--overlay-0);
   cursor: not-allowed;
 }
 
 .reset-button {
-  background: #313244;
-  color: #cdd6f4;
+  background: var(--surface-0);
+  color: var(--text);
   border: none;
   border-radius: 6px;
   padding: 8px 14px;
@@ -48,7 +48,7 @@
 }
 
 .reset-button:hover:not(:disabled) {
-  background: #45475a;
+  background: var(--surface-1);
 }
 
 .reset-button:disabled {
@@ -58,9 +58,9 @@
 
 .mode-toggle {
   margin-left: auto;
-  background: #313244;
-  color: #a6adc8;
-  border: 1px solid #45475a;
+  background: var(--surface-0);
+  color: var(--subtext);
+  border: 1px solid var(--surface-1);
   border-radius: 6px;
   padding: 6px 12px;
   font-size: 11px;
@@ -72,17 +72,17 @@
 }
 
 .mode-toggle.mode-java {
-  border-color: #89b4fa;
-  color: #89b4fa;
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 .mode-toggle.mode-local {
-  border-color: #f9e2af;
-  color: #f9e2af;
+  border-color: var(--yellow);
+  color: var(--yellow);
 }
 
 .mode-toggle:hover:not(:disabled) {
-  background: #45475a;
+  background: var(--surface-1);
 }
 
 .mode-toggle:disabled {

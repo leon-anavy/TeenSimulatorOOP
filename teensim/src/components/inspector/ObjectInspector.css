@@ -1,6 +1,6 @@
 .object-inspector {
-  background: #181825;
-  border-top: 1px solid #313244;
+  background: var(--bg-mantle);
+  border-top: 1px solid var(--surface-0);
   padding: 8px;
   flex-shrink: 0;
   max-height: 200px;
@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
-  color: #6c7086;
+  color: var(--overlay-0);
   margin-bottom: 6px;
   padding: 0 2px;
   text-transform: uppercase;
@@ -20,7 +20,7 @@
 }
 
 .inspector-count {
-  background: #313244;
+  background: var(--surface-0);
   padding: 1px 6px;
   border-radius: 10px;
   font-size: 10px;
@@ -33,8 +33,8 @@
 }
 
 .inspector-instance {
-  background: #1e1e2e;
-  border: 1px solid #45475a;
+  background: var(--bg-base);
+  border: 1px solid var(--surface-1);
   border-radius: 8px;
   padding: 6px 10px;
   min-width: 160px;
@@ -45,18 +45,18 @@
   gap: 6px;
   align-items: baseline;
   margin-bottom: 4px;
-  border-bottom: 1px solid #313244;
+  border-bottom: 1px solid var(--surface-0);
   padding-bottom: 4px;
 }
 
 .instance-type {
-  color: #cba6f7;
+  color: var(--mauve);
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
 }
 
 .instance-id {
-  color: #89b4fa;
+  color: var(--blue);
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   font-weight: 700;
@@ -77,21 +77,21 @@
 }
 
 .field-key {
-  color: #89dceb;
+  color: var(--teal);
 }
 
 .field-colon {
-  color: #6c7086;
+  color: var(--overlay-0);
 }
 
 .field-val.number {
-  color: #fab387;
+  color: var(--peach);
 }
 
 .field-val.boolean {
-  color: #cba6f7;
+  color: var(--mauve);
 }
 
 .field-val.string {
-  color: '#a6e3a1';
+  color: var(--green);
 }

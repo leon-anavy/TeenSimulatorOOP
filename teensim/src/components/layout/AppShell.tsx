@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParseTeenager } from '../../hooks/useParseTeenager';
 import { useAppStore } from '../../store/useAppStore';
 import type { Stage } from '../../constants/stageConfig';
@@ -47,6 +48,12 @@ export function AppShell() {
   const jumpToMain = useAppStore((s) => s.jumpToMain);
   const editorReadOnly = useAppStore((s) => s.editorReadOnly);
   const setEditorReadOnly = useAppStore((s) => s.setEditorReadOnly);
+  const lightMode = useAppStore((s) => s.lightMode);
+  const toggleLightMode = useAppStore((s) => s.toggleLightMode);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('light', lightMode);
+  }, [lightMode]);
 
   function handleDotClick(s: Stage) {
     if (s > currentStage) return;
@@ -74,6 +81,13 @@ export function AppShell() {
             ⚡ Quick Start
           </button>
         )}
+        <button
+          className="theme-toggle-btn"
+          onClick={toggleLightMode}
+          title={lightMode ? 'עבור למצב כהה' : 'עבור למצב בהיר'}
+        >
+          {lightMode ? '🌙' : '☀️'}
+        </button>
         <div className="app-stage-dots">
           {([1, 2, 3, 4, 5, 6, 7] as Stage[]).map((s) => (
             <button

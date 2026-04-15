@@ -10,5 +10,5 @@
 }
 
 .blueprint-avatar {
-  filter: drop-shadow(0 0 8px rgba(137, 180, 250, 0.5));
+  filter: drop-shadow(0 0 8px rgba(var(--blue-ch), 0.5));
 }

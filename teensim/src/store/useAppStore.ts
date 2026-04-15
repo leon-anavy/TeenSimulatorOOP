@@ -74,6 +74,9 @@ interface AppState {
 
   // Console
   consoleEntries: ConsoleEntry[];
+
+  // Theme
+  lightMode: boolean;
 }
 
 interface AppActions {
@@ -105,6 +108,8 @@ interface AppActions {
 
   appendConsole: (kind: ConsoleEntryKind, message: string, suggestion?: string) => void;
   clearConsole: () => void;
+
+  toggleLightMode: () => void;
 }
 
 let entryCounter = 0;
@@ -145,6 +150,8 @@ export const useAppStore = create<AppState & AppActions>()(
     encapsulationViolation: false,
 
     consoleEntries: [],
+
+    lightMode: localStorage.getItem('lightMode') === 'true',
 
     // ── Actions ──
     setActiveFile: (f) => set((s) => { s.activeFile = f; }),
@@ -270,6 +277,13 @@ export const useAppStore = create<AppState & AppActions>()(
       }),
 
     clearConsole: () => set((s) => { s.consoleEntries = []; }),
+
+    toggleLightMode: () =>
+      set((s) => {
+        const next = !s.lightMode;
+        s.lightMode = next;
+        localStorage.setItem('lightMode', String(next));
+      }),
   }))
 );
 

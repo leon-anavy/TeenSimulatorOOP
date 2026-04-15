@@ -1,6 +1,6 @@
 .console-panel {
-  background: #11111b;
-  border-top: 1px solid #313244;
+  background: var(--bg-crust);
+  border-top: 1px solid var(--surface-0);
   flex-shrink: 0;
   max-height: 200px;
   display: flex;
@@ -12,17 +12,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 10px;
-  border-bottom: 1px solid #1e1e2e;
+  border-bottom: 1px solid var(--bg-base);
   font-size: 11px;
-  color: #6c7086;
+  color: var(--overlay-0);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .console-clear {
   background: transparent;
-  border: 1px solid #313244;
-  color: #585b70;
+  border: 1px solid var(--surface-0);
+  color: var(--overlay-1);
   border-radius: 4px;
   padding: 2px 8px;
   font-size: 10px;
@@ -31,8 +31,8 @@
 }
 
 .console-clear:hover {
-  color: #cdd6f4;
-  border-color: #6c7086;
+  color: var(--text);
+  border-color: var(--overlay-0);
 }
 
 .console-body {
@@ -44,7 +44,7 @@
 }
 
 .console-empty {
-  color: #45475a;
+  color: var(--surface-1);
   padding: 8px 12px;
   font-size: 11px;
   font-style: italic;
@@ -55,7 +55,7 @@
   flex-direction: column;
   gap: 2px;
   padding: 4px 12px;
-  border-bottom: 1px solid rgba(49, 50, 68, 0.4);
+  border-bottom: 1px solid rgba(var(--surface0-ch), 0.4);
 }
 
 .entry-prefix {
@@ -64,25 +64,25 @@
 }
 
 .console-entry.log {
-  color: #cdd6f4;
+  color: var(--text);
 }
-.console-entry.log .entry-prefix { color: #6c7086; }
+.console-entry.log .entry-prefix { color: var(--overlay-0); }
 
 .console-entry.success {
-  color: #a6e3a1;
+  color: var(--green);
 }
-.console-entry.success .entry-prefix { color: #a6e3a1; }
+.console-entry.success .entry-prefix { color: var(--green); }
 
 .console-entry.error {
-  color: #f38ba8;
-  background: rgba(243, 139, 168, 0.05);
+  color: var(--red);
+  background: rgba(var(--red-ch), 0.05);
 }
-.console-entry.error .entry-prefix { color: #f38ba8; }
+.console-entry.error .entry-prefix { color: var(--red); }
 
 .console-entry.system {
-  color: #89b4fa;
+  color: var(--blue);
 }
-.console-entry.system .entry-prefix { color: #89b4fa; }
+.console-entry.system .entry-prefix { color: var(--blue); }
 
 .entry-message {
   direction: rtl;
@@ -90,7 +90,7 @@
 }
 
 .entry-suggestion {
-  color: #f9e2af;
+  color: var(--yellow);
   font-size: 11px;
   direction: rtl;
   text-align: right;
